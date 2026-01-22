@@ -283,7 +283,7 @@ string fname;
 
 void printWelcomePage() {
     cout << "=================================================================\n";
-    cout << "| ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ Priority Task Manager ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ |\n";
+    cout << "| ~ ~ ~ ~ ~  Priorify - A Priority-Based Task Manager ~ ~ ~ ~ ~ |\n";
     cout << "=================================================================\n";
     cout << "| ~ ~ ~ ~ ~ ~ ~ ~ Manage your tasks efficiently ~ ~ ~ ~ ~ ~ ~ ~ |\n";
     cout << "=================================================================\n";

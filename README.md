@@ -1,4 +1,4 @@
-# Priority-Based Task Manager
+# Priorify
 
 ![C++](https://img.shields.io/badge/C++-blue?style=flat-square&logo=c%2B%2B&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=flat-square&logo=sqlite&logoColor=white)
@@ -38,12 +38,12 @@ If you're a regular user and just want to **run the app on Windows**, follow the
 
 **Either:**
 
-1. **Go to the [Releases](https://github.com/schak04/priority-task-manager/releases) section of this repo.**
-2. **Download the installer `prioritytaskmanager_setup.exe`** and **install the app bundle** using it.
+1. **Go to the [Releases](https://github.com/schak04/priorify/releases) section of this repo.**
+2. **Download the installer `priorify_setup.exe`** and **install the app bundle** using it.
 
 **Or:**
 
-1. **Go to the [Releases](https://github.com/schak04/priority-task-manager/releases) section of this repo.**
+1. **Go to the [Releases](https://github.com/schak04/priorify/releases) section of this repo.**
 2. **Download the `.zip` bundle** attached to the latest release.
 3. **Extract** the zip file.
 4. Open the extracted folder and go to the `bin/` directory.
@@ -58,8 +58,8 @@ If you're a regular user and just want to **run the app on Windows**, follow the
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/schak04/priority-task-manager.git
-cd priority-task-manager
+git clone https://github.com/schak04/priorify.git
+cd priorify
 ```
 
 ### On Windows
@@ -109,7 +109,7 @@ chmod +x scripts/build.sh
 ## Project Structure
 
 ```bash
-priority-task-manager/
+priorify/
 │
 ├── bin/                <- Final executable goes here
 ├── build/              <- Object files go here
