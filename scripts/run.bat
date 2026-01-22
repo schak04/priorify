@@ -6,7 +6,7 @@ REM Normalize path (remove trailing backslash if present)
 set "SCRIPT_DIR=%SCRIPT_DIR:~0,-1%"
 
 REM Compute full path to the executable
-set EXE_PATH=%SCRIPT_DIR%\..\bin\task_manager.exe
+set EXE_PATH=%SCRIPT_DIR%\..\bin\priorify.exe
 
 REM Check if executable exists
 if not exist "%EXE_PATH%" (

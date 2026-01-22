@@ -47,7 +47,7 @@ If you're a regular user and just want to **run the app on Windows**, follow the
 2. **Download the `.zip` bundle** attached to the latest release.
 3. **Extract** the zip file.
 4. Open the extracted folder and go to the `bin/` directory.
-5. **Double-click `task_manager.exe`** to run the app.
+5. **Double-click `priorify.exe`** to run the app.
 
 > **Do not move the EXE out of the `bin/` folder.**
 
@@ -101,7 +101,7 @@ chmod +x scripts/build.sh
 **Run:**
 
 ```bash
-./bin/task_manager
+./bin/priorify
 ```
 
 ---

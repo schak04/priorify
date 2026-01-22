@@ -20,10 +20,10 @@ echo "Compiling SQLite source..."
 gcc -c "$LIB_DIR/sqlite3.c" -o "$BUILD_DIR/sqlite3.o"
 
 echo "Compiling C++ source..."
-g++ -c "$SRC_DIR/task_manager.cpp" -o "$BUILD_DIR/task_manager.o"
+g++ -c "$SRC_DIR/priorify.cpp" -o "$BUILD_DIR/priorify.o"
 
 echo "Linking to create executable..."
-g++ "$BUILD_DIR/task_manager.o" "$BUILD_DIR/sqlite3.o" -o "$BIN_DIR/task_manager" -static
+g++ "$BUILD_DIR/priorify.o" "$BUILD_DIR/sqlite3.o" -o "$BIN_DIR/priorify" -static
 
 echo
-echo "Build complete. Run with: $BIN_DIR/task_manager"
+echo "Build complete. Run with: $BIN_DIR/priorify"

@@ -21,10 +21,10 @@ echo Compiling SQLite source...
 gcc -c "%LIB_DIR%\sqlite3.c" -o "%BUILD_DIR%\sqlite3.o" -DSQLITE_THREADSAFE=0 -DSQLITE_OMIT_LOAD_EXTENSION
 
 echo Compiling C++ source...
-g++ -c "%SRC_DIR%\task_manager.cpp" -o "%BUILD_DIR%\task_manager.o"
+g++ -c "%SRC_DIR%\priorify.cpp" -o "%BUILD_DIR%\priorify.o"
 
 echo Linking both to create standalone executable...
-g++ "%BUILD_DIR%\task_manager.o" "%BUILD_DIR%\sqlite3.o" -o "%BIN_DIR%\task_manager.exe" -static -static-libgcc -static-libstdc++
+g++ "%BUILD_DIR%\priorify.o" "%BUILD_DIR%\sqlite3.o" -o "%BIN_DIR%\priorify.exe" -static -static-libgcc -static-libstdc++
 
 echo.
 echo Build complete. Run with: scripts\run.bat
