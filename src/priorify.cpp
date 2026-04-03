@@ -8,21 +8,7 @@ extern "C" {
 sqlite3* db;
 using namespace std;
 
-class Task {
-    public:
-    int priority;
-    string taskName;
-    string taskDesc;
-    string date;
-    bool completed;
-};
-
-// comparator for Task to make a min-heap (lower value = higher priority)
-struct CompareTask {
-    bool operator()(const Task& a, const Task& b) const {
-        return a.priority > b.priority;
-    }
-};
+#include "task.h"
 
 class TaskManager {
     public:
