@@ -3,20 +3,54 @@
 ![C++](https://img.shields.io/badge/C++-blue?style=flat-square&logo=c%2B%2B&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=flat-square&logo=sqlite&logoColor=white)
 
-This is a console-based task manager app that helps you stay productive by prioritizing your tasks.
+Priorify is a priority-based task manager built in C++ focused on performance, simplicity, and productivity.  
+Originally a console application, it is evolving into a modern, keyboard-driven TUI (Terminal User Interface), especially for Linux users like myself, with a future GUI planned as an alternative interface.
+
+---
+
+## Vision
+
+This project is designed to be:
+- Fast -> minimal overhead, instant operations
+- Keyboard-first -> no mouse needed, optimised workflow
+- Focused -> prioritisation over clutter
+- Native to developers -> built for terminal-heavy environments
+
+Through this project, I intend to improve the way I track my tasks, solving a personal productivity problem, and I hope it helps others too.
 
 ---
 
 ## Features
 
-- Console interface with welcome screen
 - Add, update, complete, and remove tasks
 - Display all tasks (ordered by priority)
 - Clear all tasks
 - In-memory storage using priority queue and vector
 - Persistent storage with SQLite
-- Cross-platform build scripts (Windows `.bat` and Linux/macOS `.sh`)
-- GUI coming soon
+- Cross-platform build scripts
+
+---
+
+## In Progress: TUI Version
+
+The next major step is a feature-rich TUI, built mainly for Linux users like myself (Arch btw).
+
+### Planned TUI Features
+- Interactive task list with navigation
+- Keyboard shortcuts for all actions
+- Color-coded priorities and statuses
+- Panels (task view, details, status bar)
+- Modal inputs (add/edit tasks)
+- Filtering and sorting
+- Smooth and efficient screen updates
+
+### Tech Direction
+- Language: C++ (modern standard)
+- TUI Library: FTXUI (planned)
+- Architecture:
+- Core logic (task manager)
+- Persistence layer (SQLite)
+- UI layer (TUI)
 
 ---
 
@@ -25,10 +59,6 @@ This is a console-based task manager app that helps you stay productive by prior
 - Language: **C++**
 - C++ **Standard Template Library (STL)**
 - Database: **SQLite**
-- Build Tools:
-  - `g++` (C++)
-  - `gcc` (C)
-  - `.bat` and `.sh` scripts for building and running
 
 ---
 
