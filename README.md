@@ -65,7 +65,7 @@ The next major step is a feature-rich TUI, built mainly for Linux users like mys
 
 ---
 
-## How to Build and Run
+## How to Use (for now, before the new TUI improvements)
 
 ### Clone the Repository
 
