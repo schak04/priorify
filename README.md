@@ -135,7 +135,7 @@ priorify/
 
 ### New
 
-!Diagram[docs/diagrams/new_project_structure.png]
+![Diagram][docs/diagrams/new_project_structure.png]
 
 ---
 
