@@ -4,28 +4,26 @@
 #include "task.h"
 #include "db.h"
 
-using namespace std;
-
 void UI::printWelcomePage() {
-    cout << "=================================================================\n";
-    cout << "| ~ ~ ~ ~ ~  Priorify - A Priority-Based Task Manager ~ ~ ~ ~ ~ |\n";
-    cout << "=================================================================\n";
-    cout << "| ~ ~ ~ ~ ~ ~ ~ ~ Manage your tasks efficiently ~ ~ ~ ~ ~ ~ ~ ~ |\n";
-    cout << "=================================================================\n";
-    cout << "What's your first name? "; cin >> fname; cout << "\n";
+    std::cout << "=================================================================\n";
+    std::cout << "| ~ ~ ~ ~ ~  Priorify - A Priority-Based Task Manager ~ ~ ~ ~ ~ |\n";
+    std::cout << "=================================================================\n";
+    std::cout << "| ~ ~ ~ ~ ~ ~ ~ ~ Manage your tasks efficiently ~ ~ ~ ~ ~ ~ ~ ~ |\n";
+    std::cout << "=================================================================\n";
+    std::cout << "What's your first name? "; std::cin >> fname; std::cout << "\n";
 }
 
 void UI::printMenu() {
-    cout << "=================================================================\n";
-    cout << "What would you like to do, " << fname << "?\n";
-    cout << "1. Add Task\n";
-    cout << "2. Update Task\n";
-    cout << "3. Mark Task as Completed\n";
-    cout << "4. Show All Tasks\n";
-    cout << "5. Remove Task\n";
-    cout << "6. Clear All Tasks\n";
-    cout << "0. Exit\n";
-    cout << "=================================================================\n";
+    std::cout << "=================================================================\n";
+    std::cout << "What would you like to do, " << fname << "?\n";
+    std::cout << "1. Add Task\n";
+    std::cout << "2. Update Task\n";
+    std::cout << "3. Mark Task as Completed\n";
+    std::cout << "4. Show All Tasks\n";
+    std::cout << "5. Remove Task\n";
+    std::cout << "6. Clear All Tasks\n";
+    std::cout << "0. Exit\n";
+    std::cout << "=================================================================\n";
 }
 
 void UI::run() {
@@ -33,19 +31,19 @@ void UI::run() {
     int choice;
     do {
         printMenu();
-        cout << "Enter your choice: ";
-        cin >> choice;
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
         switch (choice) {
         case 1: {
             Task t;
-            cout << "Enter task name: "; cin.ignore(); getline(cin, t.taskName);
-            cout << "Enter task description: "; getline(cin, t.taskDesc);
-            cout << "Enter due date (DD-MM-YYYY): "; getline(cin, t.date);
-            cout << "Enter priority (1 = highest priority): ";
+            std::cout << "Enter task name: "; std::cin.ignore(); std::getline(std::cin, t.taskName);
+            std::cout << "Enter task description: "; std::getline(std::cin, t.taskDesc);
+            std::cout << "Enter due date (DD-MM-YYYY): "; std::getline(std::cin, t.date);
+            std::cout << "Enter priority (1 = highest priority): ";
             while (true) {
-                cin >> t.priority;
+                std::cin >> t.priority;
                 if (t.priority >= 1) break;
-                cout << "Invalid input. Please enter a positive integer (1 = highest priority): ";
+                std::cout << "Invalid input. Please enter a positive integer (1 = highest priority): ";
             }
             t.completed = false;
             tm.addTask(t);
@@ -67,10 +65,10 @@ void UI::run() {
             tm.clearAllTasks();
             break;
         case 0:
-            cout << "Exiting...\n";
+            std::cout << "Exiting...\n";
             break;
         default:
-            cout << "Invalid input. Please enter a valid option.\n";
+            std::cout << "Invalid input. Please enter a valid option.\n";
             break;
         }
     } while (choice != 0);
