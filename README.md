@@ -67,14 +67,13 @@ The next major step is a feature-rich TUI, built mainly for Linux users like mys
 
 ## How to Use (for now, before the new TUI improvements)
 
-### Clone the Repository
+### On Linux (and Unix-like Operating Systems, macOS)
 
+#### Clone the Repository
 ```bash
 git clone https://github.com/schak04/priorify.git
 cd priorify
 ```
-
-### On Linux (and Unix-like Operating Systems, macOS)
 
 #### Make the build script executable (only once)
 
