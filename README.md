@@ -45,12 +45,15 @@ The next major step is a feature-rich TUI, built mainly for Linux users like mys
 - Smooth and efficient screen updates
 
 ### Tech Direction
-- Language: C++ (modern standard)
-- TUI Library: FTXUI (planned)
+#### Already Existing Tech:
+  - Language: C++
+  - DB: SQLite
+#### Planned for TUI:
+- TUI Library: FTXUI
 - Architecture:
-- Core logic (task manager)
-- Persistence layer (SQLite)
-- UI layer (TUI)
+    - Core logic (task manager)
+    - Persistence layer (SQLite)
+    - UI layer (TUI)
 
 ---
 
@@ -59,27 +62,6 @@ The next major step is a feature-rich TUI, built mainly for Linux users like mys
 - Language: **C++**
 - C++ **Standard Template Library (STL)**
 - Database: **SQLite**
-
----
-
-## Run on Windows (Prebuilt App Bundle; No Cloning and Building Required to Run)
-
-If you're a regular user and just want to **run the app on Windows**, follow these steps:
-
-**Either:**
-
-1. **Go to the [Releases](https://github.com/schak04/priorify/releases) section of this repo.**
-2. **Download the installer `priorify_setup.exe`** and **install the app bundle** using it.
-
-**Or:**
-
-1. **Go to the [Releases](https://github.com/schak04/priorify/releases) section of this repo.**
-2. **Download the `.zip` bundle** attached to the latest release.
-3. **Extract** the zip file.
-4. Open the extracted folder and go to the `bin/` directory.
-5. **Double-click `priorify.exe`** to run the app.
-
-> **Do not move the EXE out of the `bin/` folder.**
 
 ---
 
@@ -92,29 +74,7 @@ git clone https://github.com/schak04/priorify.git
 cd priorify
 ```
 
-### On Windows
-
-**Build:**
-
-Go to `scripts` -> Double-click `build.bat`.
-
-Or run the script via terminal:
-
-```cmd
-scripts\build.bat
-```
-
-**Run:**
-
-Go to `scripts` -> Double-click `run.bat`.
-
-Or run the script via terminal:
-
-```cmd
-scripts\run.bat
-```
-
-### On Linux/macOS
+### On Linux (and Unix-like Operating Systems, macOS)
 
 #### Make the build script executable (only once)
 
@@ -134,6 +94,25 @@ chmod +x scripts/build.sh
 ./bin/priorify
 ```
 
+### On Windows (Prebuilt App Bundle)
+
+If you're a Windows user and just want to **run the exe**, follow these steps:
+
+**Either:**
+
+1. **Go to the [Releases](https://github.com/schak04/priorify/releases) section of this repo.**
+2. **Download the installer `priorify_setup.exe`** and **install the app bundle** using it.
+
+**Or:**
+
+1. **Go to the [Releases](https://github.com/schak04/priorify/releases) section of this repo.**
+2. **Download the `.zip` bundle** attached to the latest release.
+3. **Extract** the zip file.
+4. Open the extracted folder and go to the `bin/` directory.
+5. **Double-click `priorify.exe`** to run the app.
+
+> **Do not move the EXE out of the `bin/` folder.**
+
 ---
 
 ## Project Structure
@@ -145,7 +124,7 @@ priorify/
 ├── build/              <- Object files go here
 ├── data/               <- SQLite database file
 ├── lib/                <- sqlite3.c and sqlite3.h
-├── scripts/            <- Build and run scripts
+├── scripts/            <- Build script
 ├── src/                <- Main C++ source code
 ├── .gitattributes
 ├── .gitignore
@@ -154,13 +133,18 @@ priorify/
 
 > All directories (like bin/, build/, data/) are auto-created during build. No need to create them manually.
 
+### New
+
+!Diagram[docs/diagrams/new_project_structure.png]
+
 ---
 
 ## Current Status
 
 - Core features implemented
 - Fully functional CLI app
-- GUI integration in progress
+- Refactoring for upcoming TUI improvements (using FTXUI)
+- GUI integration in the future as an alternative interface (using Qt)
 
 ---
 
