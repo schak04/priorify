@@ -124,8 +124,10 @@ If you're a Windows user and just want to **run the exe**, follow these steps:
 
 - Core features implemented
 - Fully functional CLI app
-- Refactoring for upcoming TUI improvements (using FTXUI)
-- GUI integration in the future as an alternative interface (using Qt)
+- Refactored for upcoming TUI (using FTXUI)
+- Migrated to CMake build system
+- Working on new TUI using FTXUI
+- GUI integration will be done eventually as an alternative interface (using Qt)
 
 ---
 
