@@ -116,25 +116,7 @@ If you're a Windows user and just want to **run the exe**, follow these steps:
 
 ## Project Structure
 
-```bash
-priorify/
-│
-├── bin/                <- Final executable goes here
-├── build/              <- Object files go here
-├── data/               <- SQLite database file
-├── lib/                <- sqlite3.c and sqlite3.h
-├── scripts/            <- Build script
-├── src/                <- Main C++ source code
-├── .gitattributes
-├── .gitignore
-├── README.md
-```
-
-> All directories (like bin/, build/, data/) are auto-created during build. No need to create them manually.
-
-### New
-
-![Diagram](docs/diagrams/new-project-structure-diagram.png)
+![Diagram](docs/diagrams/project-structure-diagram.png)
 
 ---
 
