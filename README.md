@@ -132,9 +132,9 @@ priorify/
 
 > All directories (like bin/, build/, data/) are auto-created during build. No need to create them manually.
 
-<!-- ### New
+### New
 
-![Diagram][docs/diagrams/new_project_structure.png] -->
+![Diagram](docs/diagrams/new_project_structure.png)
 
 ---
 
