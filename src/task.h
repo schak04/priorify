@@ -1,4 +1,4 @@
-#ifndef TASK_H // new learning: header guards prevent multiple inclusions
+#ifndef TASK_H
 #define TASK_H
 
 #include <string>
