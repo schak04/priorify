@@ -1,6 +1,7 @@
 # IDEs and build artifacts
 .vscode/
 *.o
+*.a
 *.exe
 build/
 bin/
