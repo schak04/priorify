@@ -129,6 +129,8 @@ If you're a Windows user and just want to **run the exe**, follow these steps:
 - **System Architecture:**  
 ![System Architecture](docs/diagrams/architecture.png)
 
+- **UML Use Case Diagram:**  
+![UML Use Case Diagram](docs/diagrams/use-case.png)
 
 ---
 
