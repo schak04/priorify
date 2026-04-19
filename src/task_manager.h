@@ -13,6 +13,7 @@ public:
     void markAsCompleted();
     void removeTask();
     void clearAllTasks();
+    std::vector<Task> getTasks();
 };
 
 #endif

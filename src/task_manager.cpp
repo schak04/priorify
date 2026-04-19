@@ -121,3 +121,7 @@ void TaskManager::clearAllTasks() {
         std::cout << "All tasks cleared successfully.\n";
     }
 }
+
+std::vector<Task> TaskManager::getTasks() {
+    return getAllTasksFromDB();
+}
