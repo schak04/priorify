@@ -132,6 +132,11 @@ If you're a Windows user and just want to **run the exe**, follow these steps:
 - **UML Use Case Diagram:**  
 ![UML Use Case Diagram](docs/diagrams/use-case.png)
 
+### <ins>Low-Level Design</ins>
+
+- **Data Flow Diagram:**  
+![Data Flow Diagram](docs/diagrams/dfd.png)
+
 ---
 
 ## Current Status
