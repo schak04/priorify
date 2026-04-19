@@ -62,6 +62,8 @@ The next major step is a feature-rich TUI, built mainly for Linux users like mys
 - Language: **C++**
 - C++ **Standard Template Library (STL)**
 - Database: **SQLite**
+- Terminal UI: **[FTXUI](https://github.com/ArthurSonzogni/ftxui)**
+- Build System: **[CMake](https://cmake.org/)**
 
 ---
 
