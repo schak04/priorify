@@ -122,6 +122,16 @@ If you're a Windows user and just want to **run the exe**, follow these steps:
 
 ---
 
+## System Design
+
+### <ins>High-Level Design</ins>
+
+- **System Architecture:**  
+![System Architecture](docs/diagrams/architecture.png)
+
+
+---
+
 ## Current Status
 
 - Core features implemented
