@@ -6,35 +6,51 @@
 
 ## Make
 
-It is a build automation tool. It essentially executes build instructions using a **Makefile**.
+It is a **build automation tool**. It automates the build process using rules defined in a **Makefile**.
 
 Speaking of the problem it solves...
+Let's say I have a small C++ project:
 
-Let's say I have a C++ project with only one source file (`main.cpp`).  
-My build instruction will be as simple as:
+```text
+project/
+├── main.cpp
+├── math.cpp
+├── math.h
+```
+
+Without Make, I might compile it manually like this every time:
+
 ```bash
-g++ main.cpp -o app
+g++ main.cpp math.cpp -o app
 ```
 
-However, what if:
-- there are many (say, 40+) source files,
-- many dependencies,
-- various libraries, etc.
+This works, but as projects grow larger, recompiling everything manually becomes tedious and inefficient.
 
-Doing this thing manually becomes a pain, and THIS is where **Make** comes in: it automates the whole build process.
+With Make, I can define dependencies in a `Makefile`:
 
-I'd write:
 ```makefile
-app: main.cpp
-    g++ main.cpp -o app
+app: main.o math.o
+	g++ main.o math.o -o app
+
+main.o: main.cpp math.h
+	g++ -c main.cpp
+
+math.o: math.cpp math.h
+	g++ -c math.cpp
 ```
 
-Then:
+Now I can simply run:
+
 ```bash
 make
 ```
+
 It checks what changed and what needs recompilation, and rebuilds efficiently.  
-E.g., if only `main.cpp` changes, it only recompiles `main.cpp`.
+
+For example:
+- if only `math.cpp` changes, only `math.o` is rebuilt,
+- then the executable is relinked,
+- `main.cpp` is not recompiled unnecessarily.
 
 ### Problem with Make
 
