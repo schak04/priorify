@@ -49,5 +49,5 @@ void runTUI() {
     auto display = Renderer(makeTUI);
     display = CatchEvent(display, handleEvent);
 
-    priorify.Loop(display); // event loop
+    priorify.Loop(display);
 }
