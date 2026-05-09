@@ -134,8 +134,8 @@ If you're a Windows user and just want to **run the exe**, follow these steps:
 
 ### <ins>Low-Level Design</ins>
 
-- **Data Flow Diagram:**  
-![Data Flow Diagram](docs/diagrams/dfd.png)
+- **Sequence Diagram:**  
+![Sequence Diagram](docs/diagrams/sequence-diagram.png)
 
 ---
 
