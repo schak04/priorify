@@ -26,7 +26,7 @@ Element makeTUI() {
             text("d") | bold, text(":Delete  "),
             text("c") | bold, text(":Mark as completed"),
             filler(),
-            text("Creator: Saptaparno Chakraborty (AKA Sapto/Sept) ") | dim, // doesn't fit small screens currently and overlaps with the keybindings
+            text("Creator: Saptaparno Chakraborty (AKA Sapto/Sept) ") | dim,
         })
     }) | border;
 
