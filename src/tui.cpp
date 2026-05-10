@@ -3,6 +3,7 @@
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/screen_interactive.hpp>
 #include <ftxui/dom/elements.hpp>
+#include "task_manager.h"
 
 ftxui::ScreenInteractive priorify = ftxui::ScreenInteractive::Fullscreen();
 
@@ -148,6 +149,28 @@ bool handleEvent(ftxui::Event event) {
             return true;
         }
         if (event == ftxui::Event::Return) {
+            Task task;
+            task.taskName = newTaskNameBuffer;
+            task.taskDesc = newTaskDescBuffer;
+            task.date = newDateBuffer;
+            task.completed = false;
+            
+            try {
+                if (!newPriorityBuffer.empty() && !isdigit(newPriorityBuffer[0])) {
+                    if (newPriorityBuffer == "high") task.priority = 1;
+                    else if (newPriorityBuffer == "medium") task.priority = 2;
+                    else if (newPriorityBuffer == "low") task.priority = 3;
+                    else task.priority = 0;
+                }
+                else
+                    task.priority = 0;
+            } catch (...) {
+                task.priority = 0;
+            }
+
+            TaskManager manager;
+            manager.addTask(task);
+
             newTaskNameBuffer = "";
             newTaskDescBuffer = "";
             newDateBuffer = "";
