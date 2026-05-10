@@ -6,10 +6,6 @@
 
 using namespace ftxui;
 
-/*
---- drawn on the screen ---
-*/
-
 auto priorify = ScreenInteractive::Fullscreen();
 
 enum class ScreenState {
@@ -122,10 +118,6 @@ Element makeTUI() {
     }
     return text("How'd you even get here?") | center;
 }
-
-/*
---- listening for key pressing events ---
-*/
 
 bool handleEvent(Event event) {
     if (currentState == ScreenState::DASHBOARD) {
