@@ -7,17 +7,25 @@
 using namespace ftxui;
 
 /*
-drawn on the screen
+--- drawn on the screen ---
 */
 auto priorify = ScreenInteractive::Fullscreen();
 
-Element makeTUI() {
-    Element mainUIBox = vbox({
+enum class ScreenState {
+    DASHBOARD,
+    ADD_TASK
+};
+
+ScreenState currentState = ScreenState::DASHBOARD;
+
+Element drawDashboard() {
+    return vbox({
         text("PRIORIFY") | bold | center, // TODO: gotta make this ASCII-art-ish later
         separator(),
         filler(),
         text("Manage your tasks efficiently") | center,
-        text("Press q or esc to exit") | dim | center,
+        text("Press 'a' to add a new task") | color(Color::Cyan) | center,
+        text("Press 'q' or 'esc' to exit") | dim | center,
         filler(),
         separator(),
         hbox({
@@ -29,18 +37,49 @@ Element makeTUI() {
             text("Creator: Saptaparno Chakraborty (AKA Sapto/Sept) ") | dim,
         })
     }) | border;
+}
 
-    return mainUIBox;
+Element drawAddTask() {
+    return vbox({
+        text("ADD NEW TASK") | bold | center,
+        separator(),
+        filler(),
+        text("...") | center,
+        filler(),
+        separator(),
+        text("Press 'esc' to go back") | dim | center,
+    }) | border;
+}
+
+Element makeTUI() {
+    if (currentState == ScreenState::DASHBOARD) {
+        return drawDashboard();
+    } else if (currentState == ScreenState::ADD_TASK) {
+        return drawAddTask();
+    }
+    return text("How'd you even get here?") | center;
 }
 
 /*
-listening for key pressing events
+--- listening for key pressing events ---
 */
+
 bool handleEvent(Event event) {
-    if (event == Event::Character('q') || event == Event::Escape) {
-        auto fn = priorify.ExitLoopClosure();
-        fn();
-        return true;
+    if (currentState == ScreenState::DASHBOARD) {
+        if (event == Event::Character('q') || event == Event::Escape) {
+            priorify.ExitLoopClosure()();
+            return true;
+        }
+        if (event == Event::Character('a')) {
+            currentState = ScreenState::ADD_TASK;
+            return true;
+        }
+    } 
+    else if (currentState == ScreenState::ADD_TASK) {
+        if (event == Event::Escape) {
+            currentState = ScreenState::DASHBOARD;
+            return true;
+        }
     }
     return false;
 }
