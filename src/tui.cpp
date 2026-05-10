@@ -18,6 +18,8 @@ enum class ScreenState {
 
 ScreenState currentState = ScreenState::DASHBOARD;
 
+std::string newTaskNameBuffer = "";
+
 Element drawDashboard() {
     return vbox({
         text("PRIORIFY") | bold | center, // TODO: gotta make this ASCII-art-ish later
@@ -44,10 +46,14 @@ Element drawAddTask() {
         text("ADD NEW TASK") | bold | center,
         separator(),
         filler(),
-        text("...") | center,
+        hbox({
+            text(" Task Name: "),
+            text(newTaskNameBuffer) | color(Color::Yellow),
+            text(" ")
+        }) | border | center,
         filler(),
         separator(),
-        text("Press 'esc' to go back") | dim | center,
+        text("Press 'Enter' to Save  |  'Esc' to Cancel") | dim | center,
     }) | border;
 }
 
@@ -74,10 +80,27 @@ bool handleEvent(Event event) {
             currentState = ScreenState::ADD_TASK;
             return true;
         }
-    } 
+    }
     else if (currentState == ScreenState::ADD_TASK) {
         if (event == Event::Escape) {
+            newTaskNameBuffer = "";
             currentState = ScreenState::DASHBOARD;
+            return true;
+        }
+        if (event == Event::Return) {
+            // DB stuff soon
+            newTaskNameBuffer = "";
+            currentState = ScreenState::DASHBOARD;
+            return true;
+        }
+        if (event == Event::Backspace) {
+            if (!newTaskNameBuffer.empty()) {
+                newTaskNameBuffer.pop_back();
+            }
+            return true;
+        }
+        if (event.is_character()) {
+            newTaskNameBuffer += event.character();
             return true;
         }
     }
