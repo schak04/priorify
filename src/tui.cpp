@@ -4,9 +4,7 @@
 #include <ftxui/component/screen_interactive.hpp>
 #include <ftxui/dom/elements.hpp>
 
-using namespace ftxui;
-
-auto priorify = ScreenInteractive::Fullscreen();
+ftxui::ScreenInteractive priorify = ftxui::ScreenInteractive::Fullscreen();
 
 enum class ScreenState {
     DASHBOARD,
@@ -57,81 +55,81 @@ Field& operator--(Field& field) {
 //     return old;
 // }
 
-Element drawDashboard() {
-    return vbox({
-        text("PRIORIFY") | bold | center, // TODO: gotta make this ASCII-art-ish later
-        separator(),
-        filler(),
-        text("Manage your tasks efficiently") | center,
-        text("Press 'a' to add a new task") | color(Color::Cyan) | center,
-        text("Press 'q' or 'esc' to exit") | dim | center,
-        filler(),
-        separator(),
-        hbox({
-            text("a") | bold, text(":Add  "),
-            text("e") | bold, text(":Edit  "),
-            text("d") | bold, text(":Delete  "),
-            text("c") | bold, text(":Mark as completed"),
-            filler(),
-            text("Creator: Saptaparno Chakraborty (AKA Sapto/Sept) ") | dim,
+ftxui::Element drawDashboard() {
+    return ftxui::vbox({
+        ftxui::text("PRIORIFY") | ftxui::bold | ftxui::center, // TODO: gotta make this ASCII-art-ish later
+        ftxui::separator(),
+        ftxui::filler(),
+        ftxui::text("Manage your tasks efficiently") | ftxui::center,
+        ftxui::text("Press 'a' to add a new task") | ftxui::color(ftxui::Color::Cyan) | ftxui::center,
+        ftxui::text("Press 'q' or 'esc' to exit") | ftxui::dim | ftxui::center,
+        ftxui::filler(),
+        ftxui::separator(),
+        ftxui::hbox({
+            ftxui::text("a") | ftxui::bold, ftxui::text(":Add  "),
+            ftxui::text("e") | ftxui::bold, ftxui::text(":Edit  "),
+            ftxui::text("d") | ftxui::bold, ftxui::text(":Delete  "),
+            ftxui::text("c") | ftxui::bold, ftxui::text(":Mark as completed"),
+            ftxui::filler(),
+            ftxui::text("Creator: Saptaparno Chakraborty (AKA Sapto/Sept) ") | ftxui::dim,
         })
-    }) | border;
+    }) | ftxui::border;
 }
 
-Element drawAddTask() {
+ftxui::Element drawAddTask() {
     auto focusOnField = [&](Field field, const std::string& label, const std::string& buffer) {
         if (activeField == field) {
-            return hbox({
-                text(" > " + label + ": ") | color(Color::Cyan) | bold,
-                text(buffer) | color(Color::Yellow) | inverted,
-                text(" ")
-            }) | border;
+            return ftxui::hbox({
+                ftxui::text(" > " + label + ": ") | ftxui::color(ftxui::Color::Cyan) | ftxui::bold,
+                ftxui::text(buffer) | ftxui::color(ftxui::Color::Yellow) | ftxui::inverted,
+                ftxui::text(" ")
+            }) | ftxui::border;
         } else {
-            return hbox({
-                text("   " + label + ": "),
-                text(buffer),
-                text(" ")
-            }) | border;
+            return ftxui::hbox({
+                ftxui::text("   " + label + ": "),
+                ftxui::text(buffer),
+                ftxui::text(" ")
+            }) | ftxui::border;
         }
     };
 
-    return vbox({
-        text("ADD NEW TASK") | bold | center,
-        separator(),
-        filler(),
+    return ftxui::vbox({
+        ftxui::text("ADD NEW TASK") | ftxui::bold | ftxui::center,
+        ftxui::separator(),
+        ftxui::filler(),
         focusOnField(Field::Name,        "Name           ", newTaskNameBuffer),
         focusOnField(Field::Description, "Description    ", newTaskDescBuffer),
         focusOnField(Field::DueDate,     "Due Date       ", newDateBuffer),
         focusOnField(Field::Status,      "Status         ", newStatusBuffer),
         focusOnField(Field::Priority,    "Priority       ", newPriorityBuffer),
-        filler(),
-        separator(),
-        text("TAB/Up/Down: Switch Field  |  ENTER: Save  |  ESC: Cancel") | dim | center,
-    }) | border;
+        ftxui::filler(),
+        ftxui::separator(),
+        ftxui::text("TAB/Up/Down: Switch Field  |  ENTER: Save  |  ESC: Cancel") | ftxui::dim | ftxui::center,
+    }) | ftxui::border;
 }
 
-Element makeTUI() {
+ftxui::Element makeTUI() {
     if (currentState == ScreenState::DASHBOARD) {
         return drawDashboard();
     } else if (currentState == ScreenState::ADD_TASK) {
         return drawAddTask();
     }
-    return text("How'd you even get here?") | center;
+    return ftxui::text("How'd you even get here?") | ftxui::center;
 }
 
-bool handleEvent(Event event) {
+bool handleEvent(ftxui::Event event) {
     if (currentState == ScreenState::DASHBOARD) {
-        if (event == Event::Character('q') || event == Event::Escape) {
+        if (event == ftxui::Event::Character('q') || event == ftxui::Event::Escape) {
             priorify.ExitLoopClosure()();
             return true;
         }
-        if (event == Event::Character('a')) {
+        if (event == ftxui::Event::Character('a')) {
             currentState = ScreenState::ADD_TASK;
             return true;
         }
     }
     else if (currentState == ScreenState::ADD_TASK) {
-        if (event == Event::Escape) {
+        if (event == ftxui::Event::Escape) {
             newTaskNameBuffer = "";
             newTaskDescBuffer = "";
             newDateBuffer = "";
@@ -141,16 +139,15 @@ bool handleEvent(Event event) {
             currentState = ScreenState::DASHBOARD;
             return true;
         }
-        if (event == Event::Tab || event == Event::ArrowDown) {
+        if (event == ftxui::Event::Tab || event == ftxui::Event::ArrowDown) {
             ++activeField;
             return true;
         }
-        if (event == Event::ArrowUp) {
+        if (event == ftxui::Event::ArrowUp) {
             --activeField;
             return true;
         }
-        if (event == Event::Return) {
-            // DB stuff soon
+        if (event == ftxui::Event::Return) {
             newTaskNameBuffer = "";
             newTaskDescBuffer = "";
             newDateBuffer = "";
@@ -169,7 +166,7 @@ bool handleEvent(Event event) {
         else if (activeField == Field::Priority) currentBuffer = &newPriorityBuffer;
 
         if (currentBuffer) {
-            if (event == Event::Backspace) {
+            if (event == ftxui::Event::Backspace) {
                 if (!currentBuffer->empty()) currentBuffer->pop_back();
                 return true;
             }
