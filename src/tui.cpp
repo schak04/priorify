@@ -1,9 +1,24 @@
 #include "tui.h"
-
+#include <string>
+#include <cctype>
+#include <vector>
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/screen_interactive.hpp>
 #include <ftxui/dom/elements.hpp>
 #include "task_manager.h"
+
+// --------- helpers ---------
+
+// strings to lowercase
+std::string to_lower(std::string s) {
+    for (char& c : s) {
+        c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+    }
+    return s;
+}
+
+// ----------------------------
+
 
 ftxui::ScreenInteractive priorify = ftxui::ScreenInteractive::Fullscreen();
 
@@ -18,7 +33,7 @@ std::string newTaskNameBuffer = "";
 std::string newTaskDescBuffer = "";
 std::string newDateBuffer = ""; // dd-mm-yyyy; using string for now, will migrate to date obj later
 std::string newStatusBuffer = ""; // Pending, Ongoing, Completed -> TODO: dropdown
-std::string newPriorityBuffer = ""; // will soon make use of my old prioritization logic (min heap)
+std::string newPriorityBuffer = ""; // High/Medium/Low (any case) or 1/2/3 (0 otherwise)
 
 enum class Field {
     Name,        // 0
@@ -156,14 +171,20 @@ bool handleEvent(ftxui::Event event) {
             task.completed = false;
             
             try {
-                if (!newPriorityBuffer.empty() && !isdigit(newPriorityBuffer[0])) {
-                    if (newPriorityBuffer == "high") task.priority = 1;
-                    else if (newPriorityBuffer == "medium") task.priority = 2;
-                    else if (newPriorityBuffer == "low") task.priority = 3;
+                if (!newPriorityBuffer.empty() && !std::isdigit(newPriorityBuffer[0])) {
+                    std::string p = to_lower(newPriorityBuffer);
+                    if (p == "high") task.priority = 1;
+                    else if (p == "medium") task.priority = 2;
+                    else if (p == "low") task.priority = 3;
                     else task.priority = 0;
                 }
-                else
-                    task.priority = 0;
+                else if (!newPriorityBuffer.empty() && std::isdigit(newPriorityBuffer[0])) {
+                    int p = stoi(newPriorityBuffer);
+                    if (p <= 3 && p >= 1) task.priority = p;
+                    else if (p > 3) task.priority = 3;
+                    else task.priority = 0;
+                }
+                else task.priority = 0;
             } catch (...) {
                 task.priority = 0;
             }
