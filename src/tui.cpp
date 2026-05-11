@@ -32,8 +32,15 @@ ScreenState currentState = ScreenState::DASHBOARD;
 std::string newTaskNameBuffer = "";
 std::string newTaskDescBuffer = "";
 std::string newDateBuffer = ""; // dd-mm-yyyy; using string for now, will migrate to date obj later
-std::string newStatusBuffer = ""; // Pending, Ongoing, Completed -> TODO: dropdown
+std::string newStatusBuffer = ""; // Pending, Ongoing, Completed/Done -> TODO: dropdown
 std::string newPriorityBuffer = ""; // High/Medium/Low (any case) or 1/2/3 (0 otherwise)
+
+std::vector<Task> cachedTasks;
+
+void refreshTasks() {
+    TaskManager manager;
+    cachedTasks = manager.getTasks();
+}
 
 enum class Field {
     Name,        // 0
@@ -72,14 +79,34 @@ Field& operator--(Field& field) {
 // }
 
 ftxui::Element drawDashboard() {
+    ftxui::Elements taskElements;
+    
+    if (cachedTasks.empty()) {
+        taskElements.push_back(ftxui::text("No tasks found. Press 'a' to add one!") | ftxui::center | ftxui::dim);
+    } else {
+        for (const auto& task : cachedTasks) {
+            ftxui::Color priorityColor = ftxui::Color::GrayDark; // priority 0
+            if (task.priority == 1) priorityColor = ftxui::Color::Red;
+            else if (task.priority == 2) priorityColor = ftxui::Color::Yellow;
+            else if (task.priority == 3) priorityColor = ftxui::Color::Green;
+
+            taskElements.push_back(
+                ftxui::hbox({
+                    ftxui::text(" ") | ftxui::bgcolor(priorityColor), // priority bar
+                    ftxui::paragraph(" " + task.taskName) | ftxui::bold | ftxui::flex,
+                    ftxui::filler(),
+                    ftxui::text(task.date + " ") | ftxui::dim,
+                    ftxui::text(task.completed ? "[DONE] " : "[TODO] ") 
+                        | ftxui::color(task.completed ? ftxui::Color::Green : ftxui::Color::Yellow)
+                }) | ftxui::border
+            );
+        }
+    }
+
     return ftxui::vbox({
         ftxui::text("PRIORIFY") | ftxui::bold | ftxui::center, // TODO: gotta make this ASCII-art-ish later
         ftxui::separator(),
-        ftxui::filler(),
-        ftxui::text("Manage your tasks efficiently") | ftxui::center,
-        ftxui::text("Press 'a' to add a new task") | ftxui::color(ftxui::Color::Cyan) | ftxui::center,
-        ftxui::text("Press 'q' or 'esc' to exit") | ftxui::dim | ftxui::center,
-        ftxui::filler(),
+        ftxui::vbox(std::move(taskElements)) | ftxui::vscroll_indicator | ftxui::frame | ftxui::flex,
         ftxui::separator(),
         ftxui::hbox({
             ftxui::text("a") | ftxui::bold, ftxui::text(":Add  "),
@@ -168,7 +195,13 @@ bool handleEvent(ftxui::Event event) {
             task.taskName = newTaskNameBuffer;
             task.taskDesc = newTaskDescBuffer;
             task.date = newDateBuffer;
-            task.completed = false;
+            // status translation to true/false (completed or not)
+            if (to_lower(newStatusBuffer) == "completed" || to_lower(newStatusBuffer) == "done") {
+                task.completed = true;
+            }
+            else {
+                task.completed = false;
+            }
             
             try {
                 if (!newPriorityBuffer.empty() && !std::isdigit(newPriorityBuffer[0])) {
@@ -191,6 +224,7 @@ bool handleEvent(ftxui::Event event) {
 
             TaskManager manager;
             manager.addTask(task);
+            refreshTasks();
 
             newTaskNameBuffer = "";
             newTaskDescBuffer = "";
@@ -224,8 +258,9 @@ bool handleEvent(ftxui::Event event) {
 }
 
 void runTUI() {
-    auto display = Renderer(makeTUI);
-    display = CatchEvent(display, handleEvent);
+    refreshTasks();
+    auto display = ftxui::Renderer(makeTUI);
+    display = ftxui::CatchEvent(display, handleEvent);
 
     priorify.Loop(display);
 }
