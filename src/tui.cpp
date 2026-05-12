@@ -51,6 +51,8 @@ enum class Field {
     Count        // 5; not a real field, just for focus switching help
 };
 
+int selectedTaskIndex = 0;
+
 Field activeField = Field::Name;
 
 Field& operator++(Field& field) {
@@ -84,22 +86,27 @@ ftxui::Element drawDashboard() {
     if (cachedTasks.empty()) {
         taskElements.push_back(ftxui::text("No tasks found. Press 'a' to add one!") | ftxui::center | ftxui::dim);
     } else {
-        for (const auto& task : cachedTasks) {
+        for (int i = 0; i < cachedTasks.size(); i++) {
+            const auto& task = cachedTasks[i];
             ftxui::Color priorityColor = ftxui::Color::GrayDark; // priority 0
             if (task.priority == 1) priorityColor = ftxui::Color::Red;
             else if (task.priority == 2) priorityColor = ftxui::Color::Yellow;
             else if (task.priority == 3) priorityColor = ftxui::Color::Green;
 
-            taskElements.push_back(
-                ftxui::hbox({
-                    ftxui::text(" ") | ftxui::bgcolor(priorityColor), // priority bar
-                    ftxui::paragraph(" " + task.taskName) | ftxui::bold | ftxui::flex,
-                    ftxui::filler(),
-                    ftxui::text(task.date + " ") | ftxui::dim,
-                    ftxui::text(task.completed ? "[DONE] " : "[TODO] ") 
-                        | ftxui::color(task.completed ? ftxui::Color::Green : ftxui::Color::Yellow)
-                }) | ftxui::border
-            );
+            auto element = ftxui::hbox({
+                ftxui::text("  ") | ftxui::bgcolor(priorityColor), // priority bar
+                ftxui::paragraph(" " + task.taskName) | ftxui::bold | ftxui::flex,
+                ftxui::filler(),
+                ftxui::text(task.date + " ") | ftxui::dim,
+                ftxui::text(task.completed ? "[DONE] " : "[TODO] ") 
+                    | ftxui::color(task.completed ? ftxui::Color::Green : ftxui::Color::Yellow)
+            });
+
+            if (selectedTaskIndex == i) {
+                element = element | ftxui::focus | ftxui::inverted;
+            }
+
+            taskElements.push_back(element | ftxui::border);
         }
     }
 
@@ -112,6 +119,7 @@ ftxui::Element drawDashboard() {
             ftxui::text("a") | ftxui::bold, ftxui::text(":Add  "),
             ftxui::text("e") | ftxui::bold, ftxui::text(":Edit  "),
             ftxui::text("d") | ftxui::bold, ftxui::text(":Delete  "),
+            ftxui::text("D") | ftxui::bold, ftxui::text(":Clear all  "),
             ftxui::text("c") | ftxui::bold, ftxui::text(":Mark as completed"),
             ftxui::filler(),
             ftxui::text("Creator: Saptaparno Chakraborty (AKA Sapto/Sept) ") | ftxui::dim,
@@ -168,6 +176,36 @@ bool handleEvent(ftxui::Event event) {
         }
         if (event == ftxui::Event::Character('a')) {
             currentState = ScreenState::ADD_TASK;
+            return true;
+        }
+        if (event == ftxui::Event::ArrowDown || event == ftxui::Event::Character('j')) {
+            if (!cachedTasks.empty()) {
+                selectedTaskIndex = (selectedTaskIndex + 1) % cachedTasks.size();
+            }
+            return true;
+        }
+        if (event == ftxui::Event::ArrowUp || event == ftxui::Event::Character('k')) {
+            if (!cachedTasks.empty()) {
+                selectedTaskIndex = (selectedTaskIndex + cachedTasks.size() - 1) % cachedTasks.size();
+            }
+            return true;
+        }
+        if (event == ftxui::Event::Character('d')) {
+            if (!cachedTasks.empty() && selectedTaskIndex >= 0 && selectedTaskIndex < cachedTasks.size()) {
+                TaskManager manager;
+                manager.removeTask(cachedTasks[selectedTaskIndex]);
+                refreshTasks();
+                if (selectedTaskIndex >= cachedTasks.size() && !cachedTasks.empty()) {
+                    selectedTaskIndex = cachedTasks.size() - 1;
+                }
+            }
+            return true;
+        }
+        if (event == ftxui::Event::Character('D')) {
+            TaskManager manager;
+            manager.clearAllTasks();
+            refreshTasks();
+            selectedTaskIndex = 0;
             return true;
         }
     }
