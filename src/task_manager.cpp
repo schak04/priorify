@@ -96,24 +96,8 @@ void TaskManager::markAsCompleted() {
     }
 }
 
-void TaskManager::removeTask() {
-    std::vector<Task> tasksFromDB = getAllTasksFromDB();
-    if (tasksFromDB.empty()) {
-        std::cout << "No tasks to remove.\n";
-        return;
-    }
-
-    showAllTasks();
-    std::cout << "Which task would you like to remove? (Enter task no.): ";
-    int tn; std::cin >> tn; std::cin.ignore(); tn--;
-    if (tn < 0 || tn >= (int)tasksFromDB.size()) {
-        std::cout << "Invalid task number.\n";
-        return;
-    }
-
-    if (deleteTaskFromDB(tasksFromDB[tn])) {
-        std::cout << "Task removed successfully.\n";
-    }
+void TaskManager::removeTask(const Task& t) {
+    deleteTaskFromDB(t);
 }
 
 void TaskManager::clearAllTasks() {
