@@ -161,11 +161,41 @@ ftxui::Element drawAddTask() {
     }) | ftxui::border;
 }
 
+ftxui::Element drawConfirmDelete() {
+    return ftxui::vbox({
+        ftxui::text(" ! WARNING ! ") | ftxui::bold | ftxui::center | ftxui::color(ftxui::Color::Red),
+        ftxui::separator(),
+        ftxui::filler(),
+        ftxui::text("Are you sure you want to delete this task?") | ftxui::center,
+        ftxui::text("\"" + cachedTasks[selectedTaskIndex].taskName + "\"") | ftxui::bold | ftxui::center | ftxui::color(ftxui::Color::Yellow),
+        ftxui::filler(),
+        ftxui::separator(),
+        ftxui::text(" [y] Yes, I want to delete it.  |  [n/esc] No, that was a mistake. ") | ftxui::center,
+    }) | ftxui::border | ftxui::center;
+}
+
+ftxui::Element drawConfirmClearAll() {
+    return ftxui::vbox({
+        ftxui::text(" !!! DANGER ZONE !!! ") | ftxui::bold | ftxui::center | ftxui::color(ftxui::Color::Red),
+        ftxui::separator(),
+        ftxui::filler(),
+        ftxui::text("This will permanently REMOVE ALL TASKS.") | ftxui::center,
+        ftxui::text("This action CANNOT be undone.") | ftxui::center | ftxui::color(ftxui::Color::Red),
+        ftxui::filler(),
+        ftxui::separator(),
+        ftxui::text(" [y] Yes, NUKE.  |  [n/esc] No, abort. ") | ftxui::center,
+    }) | ftxui::border | ftxui::center;
+}
+
 ftxui::Element makeTUI() {
     if (currentState == ScreenState::DASHBOARD) {
         return drawDashboard();
     } else if (currentState == ScreenState::ADD_TASK) {
         return drawAddTask();
+    } else if (currentState == ScreenState::CONFIRM_DELETE) {
+        return drawConfirmDelete();
+    } else if (currentState == ScreenState::CONFIRM_CLEAR_ALL) {
+        return drawConfirmClearAll();
     }
     return ftxui::text("How'd you even get here?") | ftxui::center;
 }
@@ -194,20 +224,44 @@ bool handleEvent(ftxui::Event event) {
         }
         if (event == ftxui::Event::Character('d')) {
             if (!cachedTasks.empty() && selectedTaskIndex >= 0 && selectedTaskIndex < cachedTasks.size()) {
-                TaskManager manager;
-                manager.removeTask(cachedTasks[selectedTaskIndex]);
-                refreshTasks();
-                if (selectedTaskIndex >= cachedTasks.size() && !cachedTasks.empty()) {
-                    selectedTaskIndex = cachedTasks.size() - 1;
-                }
+                currentState = ScreenState::CONFIRM_DELETE;
             }
             return true;
         }
         if (event == ftxui::Event::Character('D')) {
+            if (!cachedTasks.empty()) {
+                currentState = ScreenState::CONFIRM_CLEAR_ALL;
+            }
+            return true;
+        }
+    }
+    else if (currentState == ScreenState::CONFIRM_DELETE) {
+        if (event == ftxui::Event::Character('y')) {
+            TaskManager manager;
+            manager.removeTask(cachedTasks[selectedTaskIndex]);
+            refreshTasks();
+            if (selectedTaskIndex >= cachedTasks.size() && !cachedTasks.empty()) {
+                selectedTaskIndex = cachedTasks.size() - 1;
+            }
+            currentState = ScreenState::DASHBOARD;
+            return true;
+        }
+        if (event == ftxui::Event::Character('n') || event == ftxui::Event::Escape) {
+            currentState = ScreenState::DASHBOARD;
+            return true;
+        }
+    }
+    else if (currentState == ScreenState::CONFIRM_CLEAR_ALL) {
+        if (event == ftxui::Event::Character('y')) {
             TaskManager manager;
             manager.clearAllTasks();
             refreshTasks();
             selectedTaskIndex = 0;
+            currentState = ScreenState::DASHBOARD;
+            return true;
+        }
+        if (event == ftxui::Event::Character('n') || event == ftxui::Event::Escape) {
+            currentState = ScreenState::DASHBOARD;
             return true;
         }
     }
