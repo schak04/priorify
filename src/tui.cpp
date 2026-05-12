@@ -162,6 +162,12 @@ ftxui::Element drawAddTask() {
     }) | ftxui::border;
 }
 
+ftxui::Element drawEditTask() {
+    return ftxui::vbox({
+        // TODO: gotta continue from here tomorrow and finish implementing the edit task feature as a whole
+    })
+}
+
 ftxui::Element drawConfirmDelete() {
     return ftxui::vbox({
         ftxui::text(" ! WARNING ! ") | ftxui::bold | ftxui::center | ftxui::color(ftxui::Color::Red),
@@ -193,6 +199,8 @@ ftxui::Element makeTUI() {
         return drawDashboard();
     } else if (currentState == ScreenState::ADD_TASK) {
         return drawAddTask();
+    } else if (currentState == ScreenState::EDIT_TASK) {
+        return drawEditTask();
     } else if (currentState == ScreenState::CONFIRM_DELETE) {
         return drawConfirmDelete();
     } else if (currentState == ScreenState::CONFIRM_CLEAR_ALL) {
