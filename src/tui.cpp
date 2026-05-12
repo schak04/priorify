@@ -26,7 +26,8 @@ enum class ScreenState {
     DASHBOARD,
     ADD_TASK,
     CONFIRM_DELETE,
-    CONFIRM_CLEAR_ALL
+    CONFIRM_CLEAR_ALL,
+    EDIT_TASK
 };
 
 ScreenState currentState = ScreenState::DASHBOARD;
