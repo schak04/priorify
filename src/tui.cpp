@@ -24,7 +24,9 @@ ftxui::ScreenInteractive priorify = ftxui::ScreenInteractive::Fullscreen();
 
 enum class ScreenState {
     DASHBOARD,
-    ADD_TASK
+    ADD_TASK,
+    CONFIRM_DELETE,
+    CONFIRM_CLEAR_ALL
 };
 
 ScreenState currentState = ScreenState::DASHBOARD;
