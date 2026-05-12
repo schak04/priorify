@@ -11,7 +11,7 @@ public:
     void showAllTasks();
     void updateTask();
     void markAsCompleted();
-    void removeTask();
+    void removeTask(const Task& t);
     void clearAllTasks();
     std::vector<Task> getTasks();
 };
