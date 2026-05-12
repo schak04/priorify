@@ -152,7 +152,7 @@ If you're a Windows user and just want to **run the exe**, follow these steps:
 
 ## Author
 
-Copyright (c) 2025-2026 [Saptaparno Chakraborty](https://github.com/schak04).  
+&copy; 2025-2026 [Saptaparno Chakraborty](https://github.com/schak04).  
 All rights reserved.
 
 ---
