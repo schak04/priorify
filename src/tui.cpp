@@ -32,14 +32,22 @@ enum class ScreenState {
 
 ScreenState currentState = ScreenState::DASHBOARD;
 
+// task creation buffers
 std::string newTaskNameBuffer = "";
 std::string newTaskDescBuffer = "";
 std::string newDateBuffer = ""; // dd-mm-yyyy; using string for now, will migrate to date obj later
 std::string newStatusBuffer = ""; // Pending, Ongoing, Completed/Done -> TODO: dropdown
 std::string newPriorityBuffer = ""; // High/Medium/Low (any case) or 1/2/3 (0 otherwise)
 
-std::vector<Task> cachedTasks;
+// task editing buffers
+std::string selectedTaskNameBuffer = "";
+std::string selectedTaskDescBuffer = "";
+std::string selectedDateBuffer = "";
+std::string selectedStatusBuffer = ""; // TODO or DONE (regardless of what the actual input while creating the task was)
+std::string selectedPriorityBuffer = "";
 
+// state updates
+std::vector<Task> cachedTasks;
 void refreshTasks() {
     TaskManager manager;
     cachedTasks = manager.getTasks();
