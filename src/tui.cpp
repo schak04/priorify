@@ -1,4 +1,3 @@
-#include "tui.h"
 #include <string>
 #include <cctype>
 #include <vector>
@@ -6,6 +5,7 @@
 #include <ftxui/component/screen_interactive.hpp>
 #include <ftxui/dom/elements.hpp>
 #include "task_manager.h"
+#include "tui.h"
 
 // --------- helpers ---------
 
