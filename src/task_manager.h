@@ -9,7 +9,7 @@ class TaskManager {
 public:
     void addTask(Task task);
     void showAllTasks();
-    void updateTask();
+    void updateTask(Task& og, Task& edited);
     void markAsCompleted();
     void removeTask(const Task& t);
     void clearAllTasks();

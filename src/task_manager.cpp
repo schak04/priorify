@@ -30,44 +30,8 @@ void TaskManager::showAllTasks() {
     std::cout << "--------------------------\n";
 }
 
-void TaskManager::updateTask() {
-    std::vector<Task> tasksFromDB = getAllTasksFromDB();
-    if (tasksFromDB.empty()) {
-        std::cout << "No tasks to update.\n";
-        return;
-    }
-
-    showAllTasks();
-    std::cout << "Which task do you want to update? (Enter task no.): ";
-    int tn; std::cin >> tn; std::cin.ignore(); tn--;
-    if (tn < 0 || tn >= (int)tasksFromDB.size()) {
-        std::cout << "Invalid task number.\n";
-        return;
-    }
-
-    Task original = tasksFromDB[tn];
-    Task updated = original;
-
-    std::cout << "Alright. Updating Task " << tn + 1 << "...\n";
-    std::cout << "Enter a new name (Current: \"" << original.taskName << "\"): ";
-    std::string input;
-    std::getline(std::cin, input);
-    if (!input.empty()) updated.taskName = input;
-
-    std::cout << "Enter a new description (Current: \"" << original.taskDesc << "\"): ";
-    std::getline(std::cin, input);
-    if (!input.empty()) updated.taskDesc = input;
-
-    std::cout << "Enter a new due date (Current: \"" << original.date << "\"): ";
-    std::getline(std::cin, input);
-    if (!input.empty()) updated.date = input;
-
-    std::cout << "Enter a new priority (Current: " << original.priority << "): ";
-    if (std::cin >> updated.priority) std::cin.ignore();
-
-    if (updateTaskInDB(original, updated)) {
-        std::cout << "Task updated successfully.\n";
-    }
+void TaskManager::updateTask(Task& og, Task& edited) {
+    updateTaskInDB(og, edited);
 }
 
 void TaskManager::markAsCompleted() {
