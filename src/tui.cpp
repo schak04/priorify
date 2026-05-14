@@ -105,7 +105,7 @@ ftxui::Element drawDashboard() {
             else if (task.priority == 3) priorityColor = ftxui::Color::Green;
 
             auto element = ftxui::hbox({
-                ftxui::text("  ") | ftxui::bgcolor(priorityColor), // priority colour tag
+                ftxui::text("  ") | ftxui::color(priorityColor) | ftxui::bgcolor(priorityColor), // priority colour tag
                 ftxui::paragraph(" " + task.taskName) | ftxui::bold | ftxui::flex,
                 ftxui::filler(),
                 ftxui::text(task.date + " ") | ftxui::dim,
