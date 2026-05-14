@@ -116,12 +116,6 @@ If you're a Windows user and just want to **run the exe**, follow these steps:
 
 ---
 
-## Project Structure
-
-![Diagram](docs/diagrams/project-structure-diagram.png)
-
----
-
 ## System Design
 
 ### <ins>High-Level Design</ins>
