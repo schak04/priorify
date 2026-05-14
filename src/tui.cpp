@@ -227,6 +227,10 @@ bool handleEvent(ftxui::Event event) {
             currentState = ScreenState::ADD_TASK;
             return true;
         }
+        if (event == ftxui::Event::Character('e')) {
+            currentState = ScreenState::EDIT_TASK;
+            return true;
+        }
         if (event == ftxui::Event::ArrowDown || event == ftxui::Event::Character('j')) {
             if (!cachedTasks.empty()) {
                 selectedTaskIndex = (selectedTaskIndex + 1) % cachedTasks.size();
