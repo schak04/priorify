@@ -109,7 +109,7 @@ ftxui::Element drawDashboard() {
                 ftxui::paragraph(" " + task.taskName) | ftxui::bold | ftxui::flex,
                 ftxui::filler(),
                 ftxui::text(task.date + " ") | ftxui::dim,
-                ftxui::text(task.completed ? "[DONE] " : "[TODO] ") 
+                ftxui::text(task.completed ? "[DONE]" : "[TODO]") 
                     | ftxui::color(task.completed ? ftxui::Color::Green : ftxui::Color::Yellow)
             });
 
