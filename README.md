@@ -4,7 +4,7 @@
 ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=flat-square&logo=sqlite&logoColor=white)
 
 Priorify is a priority-based task manager built in C++, focused on performance, simplicity, and productivity.  
-Originally a console application, I am now evolving it into a modern, keyboard-driven TUI (Terminal User Interface), especially for Linux users like myself, with a future GUI planned as an alternative interface.
+This project started as a basic console UI app, and I am now evolving it into a modern, keyboard-driven TUI (Terminal User Interface), especially for Linux users like myself.
 
 ---
 
@@ -140,7 +140,14 @@ If you're a Windows user and just want to **run the exe**, follow these steps:
 - Refactored for upcoming TUI (using FTXUI)
 - Migrated to CMake build system
 - Working on new TUI using FTXUI
-- GUI integration will be done eventually as an alternative interface (using Qt)
+<!-- - GUI integration will be done eventually as an alternative interface (using Qt) -->
+<!--
+Decision Note for Future Self:
+  Might not make the GUI anytime soon. Have more projects to work on, so I'll just finish the TUI and keep refining it over time.
+  Only once I feel the TUI is good enough, I'll start making the GUI as an alternative interface, hence learning C++ GUI dev.
+  Do not really need a GUI yet, since I am a TUI fanboy and this is mostly for myself and other TUI enjoyers.
+  Might make a GUI in the future for other users though, if and when I feel the need to.
+-->
 
 ---
 
