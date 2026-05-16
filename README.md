@@ -139,7 +139,7 @@ If you're a Windows user and just want to **run the exe**, follow these steps:
 - Fully functional CLI app
 - Refactored for upcoming TUI (using FTXUI)
 - Migrated to CMake build system
-- Working on new TUI using FTXUI
+- Currently working on v2.0.0 (TUI using FTXUI)
 <!-- - GUI integration will be done eventually as an alternative interface (using Qt) -->
 <!--
 Decision Note for Future Self:
