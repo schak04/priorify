@@ -99,18 +99,18 @@ chmod +x scripts/build.sh
 
 If you're a Windows user and just want to **run the exe**, follow these steps:
 
-**Either:**
+<!-- **Either:** -->
 
-1. **Go to the [Releases](https://github.com/schak04/priorify/releases) section of this repo.**
+1. **Go to [Releases](https://github.com/schak04/priorify/releases) -> Priorify v1.0.0.**
 2. **Download the installer `priorify_setup.exe`** and **install the app bundle** using it.
-
+<!-- 
 **Or:**
 
 1. **Go to the [Releases](https://github.com/schak04/priorify/releases) section of this repo.**
 2. **Download the `.zip` bundle** attached to the latest release.
 3. **Extract** the zip file.
 4. Open the extracted folder and go to the `bin/` directory.
-5. **Double-click `priorify.exe`** to run the app.
+5. **Double-click `priorify.exe`** to run the app. -->
 
 > **Do not move the EXE out of the `bin/` folder.**
 
