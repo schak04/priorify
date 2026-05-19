@@ -15,7 +15,7 @@ bool initDB();
 bool addTaskToDB(const Task& t);
 std::vector<Task> getAllTasksFromDB();
 bool updateTaskInDB(const Task& original, const Task& updated);
-bool markTaskCompletedInDB(const Task& t);
+bool toggleCompletionStatusInDB(const Task& t);
 bool deleteTaskFromDB(const Task& t);
 bool clearAllTasksFromDB();
 void closeDB();

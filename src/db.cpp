@@ -104,8 +104,8 @@ bool updateTaskInDB(const Task& original, const Task& updated) {
     return true;
 }
 
-bool markTaskCompletedInDB(const Task& t) {
-    const char* sql = "UPDATE tasks SET completed = 1 WHERE name = ? AND description = ? AND due_date = ? AND priority = ? AND completed = 0;";
+bool toggleCompletionStatusInDB(const Task& t) {
+    const char* sql = "UPDATE tasks SET completed = NOT completed WHERE name = ? AND description = ? AND due_date = ? AND priority = ?;";
     sqlite3_stmt* stmt;
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
         std::cerr << "Failed to prepare update statement: " << sqlite3_errmsg(db) << std::endl;
