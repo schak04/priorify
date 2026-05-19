@@ -10,7 +10,7 @@ public:
     void addTask(Task task);
     void showAllTasks();
     void updateTask(Task& og, Task& edited);
-    void markAsCompleted();
+    void toggleCompletionStatus(Task& t);
     void removeTask(const Task& t);
     void clearAllTasks();
     std::vector<Task> getTasks();

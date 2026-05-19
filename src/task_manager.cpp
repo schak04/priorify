@@ -34,30 +34,8 @@ void TaskManager::updateTask(Task& og, Task& edited) {
     updateTaskInDB(og, edited);
 }
 
-void TaskManager::markAsCompleted() {
-    std::vector<Task> tasksFromDB = getAllTasksFromDB();
-    if (tasksFromDB.empty()) {
-        std::cout << "No tasks to mark as completed.\n";
-        return;
-    }
-
-    showAllTasks();
-    std::cout << "Which task would you like to mark as completed? (Enter task no.): ";
-    int tn; std::cin >> tn; std::cin.ignore(); tn--;
-    if (tn < 0 || tn >= (int)tasksFromDB.size()) {
-        std::cout << "Invalid task number.\n";
-        return;
-    }
-
-    Task& t = tasksFromDB[tn];
-    if (t.completed) {
-        std::cout << "Task is already completed.\n";
-        return;
-    }
-
-    if (markTaskCompletedInDB(t)) {
-        std::cout << "Selected task marked as completed.\n";
-    }
+void TaskManager::toggleCompletionStatus(Task& t) {
+    toggleCompletionStatusInDB(t);
 }
 
 void TaskManager::removeTask(const Task& t) {
