@@ -77,7 +77,7 @@ std::vector<Task> getAllTasksFromDB() {
 bool updateTaskInDB(const Task& original, const Task& updated) {
     const char* sql = R"(
         UPDATE tasks
-        SET name = ?, description = ?, due_date = ?, priority = ?
+        SET name = ?, description = ?, due_date = ?, priority = ?, completed = ?
         WHERE name = ? AND description = ? AND due_date = ? AND priority = ? AND completed = ?
     )";
     sqlite3_stmt* stmt;
@@ -89,11 +89,12 @@ bool updateTaskInDB(const Task& original, const Task& updated) {
     sqlite3_bind_text(stmt, 2, updated.taskDesc.c_str(), -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(stmt, 3, updated.date.c_str(), -1, SQLITE_TRANSIENT);
     sqlite3_bind_int(stmt, 4, updated.priority);
-    sqlite3_bind_text(stmt, 5, original.taskName.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(stmt, 6, original.taskDesc.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(stmt, 7, original.date.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(stmt, 8, original.priority);
-    sqlite3_bind_int(stmt, 9, original.completed ? 1 : 0);
+    sqlite3_bind_int(stmt, 5, updated.completed);
+    sqlite3_bind_text(stmt, 6, original.taskName.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 7, original.taskDesc.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 8, original.date.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(stmt, 9, original.priority);
+    sqlite3_bind_int(stmt, 10, original.completed ? 1 : 0);
     if (sqlite3_step(stmt) != SQLITE_DONE) {
         std::cerr << "Failed to update task in database: " << sqlite3_errmsg(db) << std::endl;
         sqlite3_finalize(stmt);
