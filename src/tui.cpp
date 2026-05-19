@@ -274,6 +274,13 @@ bool handleEvent(ftxui::Event event) {
             }
             return true;
         }
+        if (event == ftxui::Event::Character('c')) {
+            Task t = cachedTasks[selectedTaskIndex];
+            TaskManager manager;
+            manager.toggleCompletionStatus(t);
+            refreshTasks();
+            return true;
+        }
     }
     else if (currentState == ScreenState::CONFIRM_DELETE) {
         if (event == ftxui::Event::Character('y')) {
