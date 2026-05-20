@@ -197,7 +197,7 @@ ftxui::Element drawConfirmDelete() {
         ftxui::text("\"" + cachedTasks[selectedTaskIndex].taskName + "\"") | ftxui::bold | ftxui::center | ftxui::color(ftxui::Color::Yellow),
         ftxui::filler(),
         ftxui::separator(),
-        ftxui::text(" [y] Yes, I want to delete it.  |  [n/esc] No, that was a mistake. ") | ftxui::center,
+        ftxui::text(" [y/enter] Yes, I want to delete it.  |  [n/esc] No, that was a mistake. ") | ftxui::center,
     }) | ftxui::border | ftxui::center;
 }
 
@@ -283,7 +283,7 @@ bool handleEvent(ftxui::Event event) {
         }
     }
     else if (currentState == ScreenState::CONFIRM_DELETE) {
-        if (event == ftxui::Event::Character('y')) {
+        if (event == ftxui::Event::Character('y') || event == ftxui::Event::Return) {
             TaskManager manager;
             manager.removeTask(cachedTasks[selectedTaskIndex]);
             refreshTasks();
