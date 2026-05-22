@@ -150,42 +150,25 @@ ftxui::Element drawDashboard() {
     }) | ftxui::border;
 }
 
-// needed for both drawAddTask() and drawEditTask()
-auto focusOnField = [](Field field, const std::string& label, const std::string& buffer) {
-    if (activeField == field) {
-        return ftxui::hbox({
-            ftxui::text(" > " + label + ": ") | ftxui::color(ftxui::Color::Cyan) | ftxui::bold,
-            ftxui::text(buffer) | ftxui::color(ftxui::Color::Yellow) | ftxui::inverted,
-            ftxui::text(" ")
-        }) | ftxui::border;
-    } else {
-        return ftxui::hbox({
-            ftxui::text("   " + label + ": "),
-            ftxui::text(buffer),
-            ftxui::text(" ")
-        }) | ftxui::border;
-    }
-};
-
-ftxui::Element drawAddTask() {
+// to draw task creation + editing forms
+ftxui::Element drawTaskDetailsForm(const std::string& formTitle) {
+    auto focusOnField = [&](Field field, const std::string& label, const std::string& buffer) {
+        if (activeField == field) {
+            return ftxui::hbox({
+                ftxui::text(" > " + label + ": ") | ftxui::color(ftxui::Color::Cyan) | ftxui::bold,
+                ftxui::text(buffer) | ftxui::color(ftxui::Color::Yellow) | ftxui::inverted,
+                ftxui::text(" ")
+            }) | ftxui::border;
+        } else {
+            return ftxui::hbox({
+                ftxui::text("   " + label + ": "),
+                ftxui::text(buffer),
+                ftxui::text(" ")
+            }) | ftxui::border;
+        }
+    };
     return ftxui::vbox({
-        ftxui::text("ADD NEW TASK") | ftxui::bold | ftxui::center,
-        ftxui::separator(),
-        ftxui::filler(),
-        focusOnField(Field::Name,        "Name           ", taskNameBuffer),
-        focusOnField(Field::Description, "Description    ", taskDescBuffer),
-        focusOnField(Field::DueDate,     "Due Date       ", dateBuffer),
-        focusOnField(Field::Status,      "Status         ", statusBuffer),
-        focusOnField(Field::Priority,    "Priority       ", priorityBuffer),
-        ftxui::filler(),
-        ftxui::separator(),
-        ftxui::text("TAB/Up/Down: Switch Field  |  ENTER: Save  |  ESC: Cancel") | ftxui::dim | ftxui::center,
-    }) | ftxui::border;
-}
-
-ftxui::Element drawEditTask() {
-    return ftxui::vbox({
-        ftxui::text("EDIT TASK") | ftxui::bold | ftxui::center,
+        ftxui::text(formTitle) | ftxui::bold | ftxui::center,
         ftxui::separator(),
         ftxui::filler(),
         focusOnField(Field::Name,        "Name           ", taskNameBuffer),
@@ -229,9 +212,9 @@ ftxui::Element makeTUI() {
     if (currentState == ScreenState::DASHBOARD) {
         return drawDashboard();
     } else if (currentState == ScreenState::ADD_TASK) {
-        return drawAddTask();
+        return drawTaskDetailsForm("ADD NEW TASK");
     } else if (currentState == ScreenState::EDIT_TASK) {
-        return drawEditTask();
+        return drawTaskDetailsForm("EDIT TASK");
     } else if (currentState == ScreenState::CONFIRM_DELETE) {
         return drawConfirmDelete();
     } else if (currentState == ScreenState::CONFIRM_CLEAR_ALL) {
