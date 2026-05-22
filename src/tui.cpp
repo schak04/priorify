@@ -143,7 +143,8 @@ ftxui::Element drawDashboard() {
             ftxui::text("e") | ftxui::bold, ftxui::text(":Edit  "),
             ftxui::text("d") | ftxui::bold, ftxui::text(":Delete  "),
             ftxui::text("D") | ftxui::bold, ftxui::text(":Clear all  "),
-            ftxui::text("c") | ftxui::bold, ftxui::text(":Toggle completion status"),
+            ftxui::text("c") | ftxui::bold, ftxui::text(":Toggle completion status  "),
+            ftxui::text("q/esc") | ftxui::bold, ftxui::text(":Quit"),
             ftxui::filler(),
             ftxui::text("Creator: Saptaparno Chakraborty (AKA Sapto/Sept) ") | ftxui::dim,
         })
