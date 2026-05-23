@@ -2,152 +2,106 @@
 
 ![C++](https://img.shields.io/badge/C++-blue?style=flat-square&logo=c%2B%2B&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=flat-square&logo=sqlite&logoColor=white)
+![CMake](https://img.shields.io/badge/CMake-064F8C?style=flat-square&logo=cmake&logoColor=white)
+![Bash](https://img.shields.io/badge/Bash-4EAA25?style=flat-square&logo=gnu-bash&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)
 
 Priorify is a priority-based task manager built in C++, focused on performance, simplicity, and productivity.  
-This project started as a basic console UI app, and I am now evolving it into a modern, keyboard-driven TUI (Terminal User Interface), especially for Linux users like myself.
+What started as a basic console app has evolved into a modern, keyboard-driven **Terminal User Interface (TUI)** tailored for terminal-heavy workflows.
 
 ---
 
 ## Vision
 
 This project is designed to be:
-- Fast -> minimal overhead, instant operations
-- Keyboard-first -> no mouse needed, optimised workflow
-- Focused -> prioritisation over clutter
-- Native to developers -> built for terminal-heavy environments
+- **Fast:** Minimal overhead with in-memory caching and instant operations.
+- **Keyboard-First:** No mouse needed, fully optimised for Vim-style (h/j/k/l) and standard navigation.
+- **Focused:** Prioritisation over clutter.
+- **Native to Programmers:** Created for programmers who enjoy being in the terminal.
 
 Through this project, I intend to improve the way I track my tasks, solving a personal productivity problem, and I hope it helps others too.
 
 ---
 
-## Features
+## Features (v2.0.0)
 
-- Add, update, complete, and remove tasks
-- Display all tasks (ordered by priority)
-- Clear all tasks
-- In-memory storage using priority queue and vector
-- Persistent storage with SQLite
-- Cross-platform build scripts
-
----
-
-## In Progress: TUI Version
-
-The next major step is a feature-rich TUI, built mainly for Linux users like myself (Arch btw).
-
-### Planned TUI Features
-- Interactive task list with navigation
-- Keyboard shortcuts for all actions
-- Color-coded priorities and statuses
-- Panels (task view, details, status bar)
-- Modal inputs (add/edit tasks)
-- Filtering and sorting
-- Smooth and efficient screen updates
-
-### Tech Direction
-#### Already Existing Tech:
-  - Language: C++
-  - DB: SQLite
-#### Planned for TUI:
-- TUI Library: FTXUI
-- Architecture:
-    - Core logic (task manager)
-    - Persistence layer (SQLite)
-    - UI layer (TUI)
+- Modern TUI
+- **Vim-like Navigation:** `h`/`j`/`k`/`l`
+- Custom pill toggles for selecting task status and priority.
+- **Task Management:** Add, update, complete, and delete (and clear all) tasks instantly.
+- **Visual Feedback:** Colour-coded priority bars and active-state highlights.
+- **Persistent Storage:** SQLite database safely stores all task data.
+- **Performance Optimised:** In-memory caching minimises database polling.
 
 ---
 
 ## Technologies Used
 
-- Language: **C++**
-- C++ **Standard Template Library (STL)**
-- Database: **SQLite**
-- Terminal UI: **[FTXUI](https://github.com/ArthurSonzogni/ftxui)**
-- Build System: **[CMake](https://cmake.org/)**
+- **Language:** C++
+- **Database:** SQLite3
+- **TUI Framework:** [FTXUI](https://github.com/ArthurSonzogni/ftxui)
+- **Build System:** CMake
+- **Build Automation:** Bash Scripting
 
 ---
 
-## How to Use (v1.0.0, pre-TUI)
+## Usage Instructions
 
-### On Linux (and Unix-like Operating Systems, macOS)
+### Prerequisites
+- CMake
+- A C++ compiler supporting C++17 or higher
 
-#### Clone the Repository
+### On Linux, macOS, and Unix-like Systems
+
+#### 1. Clone the Repository
 ```bash
 git clone https://github.com/schak04/priorify.git
 cd priorify
 ```
 
-#### Make the build script executable (only once)
+#### 2. Build the Project
 
 ```bash
 chmod +x scripts/build.sh
-```
-
-**Build:**
-
-```bash
 ./scripts/build.sh
 ```
 
-**Run:**
+#### 3. Run the App
+Always run the executable from the project root to ensure the database path (`data/tasks.db`) resolves correctly.
 
 ```bash
 ./bin/priorify
 ```
 
-### On Windows (Prebuilt App Bundle)
+### Keybindings Guide
+- `a`: Add a new task
+- `e`: Edit selected task
+- `d`: Delete selected task (requires confirmation)
+- `D`: Clear all tasks (requires confirmation)
+- `c`: Toggle completion status
+- `j`/`k` or `Up`/`Down`: Navigate lists and form fields
+- `h`/`l` or `Left`/`Right`: Cycle through radio options or should I say... pills (Status/Priority)
+- `Enter`: Save / Confirm
+- `q`/`Esc`: Quit the app when in the dashboard
+- `Esc`: Return to the dashboard when inside the **add/edit-task screens** or **delete/clear-all confirmation screens**
 
-If you're a Windows user and just want to **run the exe**, follow these steps:
-
-<!-- **Either:** -->
-
-1. **Go to [Releases](https://github.com/schak04/priorify/releases) -> Priorify v1.0.0.**
-2. **Download the installer `priorify_setup.exe`** and **install the app bundle** using it.
-<!-- 
-**Or:**
-
-1. **Go to the [Releases](https://github.com/schak04/priorify/releases) section of this repo.**
-2. **Download the `.zip` bundle** attached to the latest release.
-3. **Extract** the zip file.
-4. Open the extracted folder and go to the `bin/` directory.
-5. **Double-click `priorify.exe`** to run the app. -->
-
-> **Do not move the EXE out of the `bin/` folder.**
+> [!NOTE]  
+> The app is not available for Windows yet.
 
 ---
 
 ## System Design
 
-### <ins>High-Level Design</ins>
-
+### High-Level Design
 - **System Architecture:**  
 ![System Architecture](docs/diagrams/architecture.png)
 
 - **UML Use Case Diagram:**  
 ![UML Use Case Diagram](docs/diagrams/use-case.png)
 
-### <ins>Low-Level Design</ins>
-
+### Low-Level Design
 - **Sequence Diagram:**  
 ![Sequence Diagram](docs/diagrams/sequence-diagram.png)
-
----
-
-## Current Status
-
-- Core features implemented
-- Fully functional CLI app
-- Refactored for upcoming TUI (using FTXUI)
-- Migrated to CMake build system
-- Currently working on v2.0.0 (TUI using FTXUI)
-<!-- - GUI integration will be done eventually as an alternative interface (using Qt) -->
-<!--
-Decision Note for Future Self:
-  Might not make the GUI anytime soon. Have more projects to work on, so I'll just finish the TUI and keep refining it over time.
-  Only once I feel the TUI is good enough, I'll start making the GUI as an alternative interface, hence learning C++ GUI dev.
-  Do not really need a GUI yet, since I am a TUI fanboy and this is mostly for myself and other TUI enjoyers.
-  Might make a GUI in the future for other users though, if and when I feel the need to.
--->
 
 ---
 
