@@ -195,7 +195,7 @@ ftxui::Element drawDashboard() {
         ftxui::vbox(std::move(taskElements)) | ftxui::vscroll_indicator | ftxui::frame | ftxui::flex,
         ftxui::separator(),
         ftxui::hbox({
-            ftxui::text("a") | ftxui::bold, ftxui::text(":Add  "),
+            ftxui::text(" a") | ftxui::bold, ftxui::text(":Add  "),
             ftxui::text("e") | ftxui::bold, ftxui::text(":Edit  "),
             ftxui::text("d") | ftxui::bold, ftxui::text(":Delete  "),
             ftxui::text("D") | ftxui::bold, ftxui::text(":Clear all  "),
