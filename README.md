@@ -49,7 +49,7 @@ Through this project, I intend to improve the way I track my tasks, solving a pe
 
 ### Prerequisites
 - CMake
-- A C++ compiler supporting C++17 or higher
+- A C++ compiler supporting C++20 or higher
 
 ### On Linux, macOS, and Unix-like Systems
 
