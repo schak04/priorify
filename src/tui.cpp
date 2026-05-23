@@ -99,6 +99,28 @@ void resetBuffnFieldnState() {
     currentState = ScreenState::DASHBOARD;
 }
 
+bool handleTyping(ftxui::Event& event) {
+    std::string* currentBuffer = nullptr;
+    if (activeField == Field::Name) currentBuffer = &taskNameBuffer;
+    else if (activeField == Field::Description) currentBuffer = &taskDescBuffer;
+    else if (activeField == Field::DueDate) currentBuffer = &dateBuffer;
+    else if (activeField == Field::Status) currentBuffer = &statusBuffer;
+    else if (activeField == Field::Priority) currentBuffer = &priorityBuffer;
+
+    if (currentBuffer) {
+        if (event == ftxui::Event::Backspace) {
+            if (!currentBuffer->empty()) currentBuffer->pop_back();
+            return true;
+        }
+        if (event.is_character()) {
+            *currentBuffer += event.character();
+            return true;
+        }
+    }
+
+    return false;
+}
+
 /*
 ---------- TUI Rendering ----------
 */
@@ -364,23 +386,7 @@ bool handleEvent(ftxui::Event event) {
             return true;
         }
 
-        std::string* currentBuffer = nullptr;
-        if (activeField == Field::Name) currentBuffer = &taskNameBuffer;
-        else if (activeField == Field::Description) currentBuffer = &taskDescBuffer;
-        else if (activeField == Field::DueDate) currentBuffer = &dateBuffer;
-        else if (activeField == Field::Status) currentBuffer = &statusBuffer;
-        else if (activeField == Field::Priority) currentBuffer = &priorityBuffer;
-
-        if (currentBuffer) {
-            if (event == ftxui::Event::Backspace) {
-                if (!currentBuffer->empty()) currentBuffer->pop_back();
-                return true;
-            }
-            if (event.is_character()) {
-                *currentBuffer += event.character();
-                return true;
-            }
-        }
+        handleTyping(event);
     }
     else if (currentState == ScreenState::EDIT_TASK) {
         if (event == ftxui::Event::Escape) {
@@ -433,23 +439,7 @@ bool handleEvent(ftxui::Event event) {
             return true;
         }
 
-        std::string* currentBuffer = nullptr;
-        if (activeField == Field::Name) currentBuffer = &taskNameBuffer;
-        else if (activeField == Field::Description) currentBuffer = &taskDescBuffer;
-        else if (activeField == Field::DueDate) currentBuffer = &dateBuffer;
-        else if (activeField == Field::Status) currentBuffer = &statusBuffer;
-        else if (activeField == Field::Priority) currentBuffer = &priorityBuffer;
-
-        if (currentBuffer) {
-            if (event == ftxui::Event::Backspace) {
-                if (!currentBuffer->empty()) currentBuffer->pop_back();
-                return true;
-            }
-            if (event.is_character()) {
-                *currentBuffer += event.character();
-                return true;
-            }
-        }
+        handleTyping(event);
     }
 
     return false;
