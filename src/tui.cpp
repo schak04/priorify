@@ -121,6 +121,40 @@ bool handleTyping(ftxui::Event& event) {
     return false;
 }
 
+Task parseTaskFromBuffers() {
+    Task task;
+    task.taskName = taskNameBuffer;
+    task.taskDesc = taskDescBuffer;
+    task.date = dateBuffer;
+    // status translation to true/false (completed or not)
+    if (to_lower(statusBuffer) == "completed" || to_lower(statusBuffer) == "done") {
+        task.completed = true;
+    }
+    else {
+        task.completed = false;
+    }
+    
+    try {
+        if (!priorityBuffer.empty() && !std::isdigit(priorityBuffer[0])) {
+            std::string p = to_lower(priorityBuffer);
+            if (p == "high") task.priority = 1;
+            else if (p == "medium") task.priority = 2;
+            else if (p == "low") task.priority = 3;
+            else task.priority = 0;
+        }
+        else if (!priorityBuffer.empty() && std::isdigit(priorityBuffer[0])) {
+            int p = stoi(priorityBuffer);
+            if (p <= 3 && p >= 1) task.priority = p;
+            else if (p > 3) task.priority = 3;
+            else task.priority = 0;
+        }
+        else task.priority = 0;
+    } catch (...) {
+        task.priority = 0;
+    }
+    return task;
+}
+
 /*
 ---------- TUI Rendering ----------
 */
@@ -347,41 +381,10 @@ bool handleEvent(ftxui::Event event) {
             return true;
         }
         if (event == ftxui::Event::Return) {
-            Task task;
-            task.taskName = taskNameBuffer;
-            task.taskDesc = taskDescBuffer;
-            task.date = dateBuffer;
-            // status translation to true/false (completed or not)
-            if (to_lower(statusBuffer) == "completed" || to_lower(statusBuffer) == "done") {
-                task.completed = true;
-            }
-            else {
-                task.completed = false;
-            }
-            
-            try {
-                if (!priorityBuffer.empty() && !std::isdigit(priorityBuffer[0])) {
-                    std::string p = to_lower(priorityBuffer);
-                    if (p == "high") task.priority = 1;
-                    else if (p == "medium") task.priority = 2;
-                    else if (p == "low") task.priority = 3;
-                    else task.priority = 0;
-                }
-                else if (!priorityBuffer.empty() && std::isdigit(priorityBuffer[0])) {
-                    int p = stoi(priorityBuffer);
-                    if (p <= 3 && p >= 1) task.priority = p;
-                    else if (p > 3) task.priority = 3;
-                    else task.priority = 0;
-                }
-                else task.priority = 0;
-            } catch (...) {
-                task.priority = 0;
-            }
-
+            Task task = parseTaskFromBuffers();
             TaskManager manager;
             manager.addTask(task);
             refreshTasks();
-
             resetBuffnFieldnState();
             return true;
         }
@@ -402,36 +405,7 @@ bool handleEvent(ftxui::Event event) {
             return true;
         }
         if (event == ftxui::Event::Return) {
-            Task task;
-            task.taskName = taskNameBuffer;
-            task.taskDesc = taskDescBuffer;
-            task.date = dateBuffer;
-            if (to_lower(statusBuffer) == "completed" || to_lower(statusBuffer) == "done") {
-                task.completed = true;
-            }
-            else {
-                task.completed = false;
-            }
-
-            try {
-                if (!priorityBuffer.empty() && !std::isdigit(priorityBuffer[0])) {
-                    std::string p = to_lower(priorityBuffer);
-                    if (p == "high") task.priority = 1;
-                    else if (p == "medium") task.priority = 2;
-                    else if (p == "low") task.priority = 3;
-                    else task.priority = 0;
-                }
-                else if (!priorityBuffer.empty() && std::isdigit(priorityBuffer[0])) {
-                    int p = stoi(priorityBuffer);
-                    if (p <= 3 && p >= 1) task.priority = p;
-                    else if (p > 3) task.priority = 3;
-                    else task.priority = 0;
-                }
-                else task.priority = 0;
-            } catch (...) {
-                task.priority = 0;
-            }
-
+            Task task = parseTaskFromBuffers();
             TaskManager manager;
             manager.updateTask(cachedTasks[selectedTaskIndex], task);
             refreshTasks();
