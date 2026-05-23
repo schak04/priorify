@@ -28,8 +28,12 @@ ScreenState currentState = ScreenState::DASHBOARD;
 std::string taskNameBuffer = "";
 std::string taskDescBuffer = "";
 std::string dateBuffer = ""; // dd-mm-yyyy; using string for now, will migrate to date obj later
-std::string statusBuffer = ""; // Pending, Ongoing, Completed/Done -> TODO: radio
-std::string priorityBuffer = ""; // High/Medium/Low (any case) or 1/2/3 (0 otherwise)
+
+const std::vector<std::string> statusOptions = {"TODO", "DONE"};
+int selectedStatusIndex = 0;
+
+const std::vector<std::string> priorityOptions = {"High", "Medium", "Low", "None"};
+int selectedPriorityIndex = 3;
 
 // state updates
 std::vector<Task> cachedTasks;
@@ -93,19 +97,38 @@ void resetBuffnFieldnState() {
     taskNameBuffer = "";
     taskDescBuffer = "";
     dateBuffer = "";
-    statusBuffer = "";
-    priorityBuffer = "";
+    selectedStatusIndex = 0;
+    selectedPriorityIndex = 3;
     activeField = Field::Name;
     currentState = ScreenState::DASHBOARD;
 }
 
-bool handleTyping(ftxui::Event& event) {
+bool handleTypingAndSelection(ftxui::Event& event) {
+    if (activeField == Field::Status) {
+        if (event == ftxui::Event::ArrowLeft || event == ftxui::Event::Character('h') ||
+            event == ftxui::Event::ArrowRight || event == ftxui::Event::Character('l')) {
+            selectedStatusIndex = (selectedStatusIndex + 1) % 2;
+            return true;
+        }
+        return false;
+    }
+
+    if (activeField == Field::Priority) {
+        if (event == ftxui::Event::ArrowLeft || event == ftxui::Event::Character('h')) {
+            selectedPriorityIndex = (selectedPriorityIndex + 3) % 4;
+            return true;
+        }
+        if (event == ftxui::Event::ArrowRight || event == ftxui::Event::Character('l')) {
+            selectedPriorityIndex = (selectedPriorityIndex + 1) % 4;
+            return true;
+        }
+        return false;
+    }
+
     std::string* currentBuffer = nullptr;
     if (activeField == Field::Name) currentBuffer = &taskNameBuffer;
     else if (activeField == Field::Description) currentBuffer = &taskDescBuffer;
     else if (activeField == Field::DueDate) currentBuffer = &dateBuffer;
-    else if (activeField == Field::Status) currentBuffer = &statusBuffer;
-    else if (activeField == Field::Priority) currentBuffer = &priorityBuffer;
 
     if (currentBuffer) {
         if (event == ftxui::Event::Backspace) {
@@ -126,32 +149,13 @@ Task parseTaskFromBuffers() {
     task.taskName = taskNameBuffer;
     task.taskDesc = taskDescBuffer;
     task.date = dateBuffer;
-    // status translation to true/false (completed or not)
-    if (to_lower(statusBuffer) == "completed" || to_lower(statusBuffer) == "done") {
-        task.completed = true;
-    }
-    else {
-        task.completed = false;
-    }
+    task.completed = (selectedStatusIndex == 1);
     
-    try {
-        if (!priorityBuffer.empty() && !std::isdigit(priorityBuffer[0])) {
-            std::string p = to_lower(priorityBuffer);
-            if (p == "high") task.priority = 1;
-            else if (p == "medium") task.priority = 2;
-            else if (p == "low") task.priority = 3;
-            else task.priority = 0;
-        }
-        else if (!priorityBuffer.empty() && std::isdigit(priorityBuffer[0])) {
-            int p = stoi(priorityBuffer);
-            if (p <= 3 && p >= 1) task.priority = p;
-            else if (p > 3) task.priority = 3;
-            else task.priority = 0;
-        }
-        else task.priority = 0;
-    } catch (...) {
-        task.priority = 0;
-    }
+    if (selectedPriorityIndex == 0) task.priority = 1;
+    else if (selectedPriorityIndex == 1) task.priority = 2;
+    else if (selectedPriorityIndex == 2) task.priority = 3;
+    else task.priority = 0;
+    
     return task;
 }
 
@@ -224,6 +228,32 @@ ftxui::Element drawTaskDetailsForm(const std::string& formTitle) {
             }) | ftxui::border;
         }
     };
+    auto drawPills = [&](Field field, const std::string& label, const std::vector<std::string>& options, int selectedIndex) {
+        ftxui::Elements pills;
+        pills.push_back(ftxui::text(activeField == field ? " > " + label + ": " : "   " + label + ": ") 
+                        | (activeField == field ? ftxui::color(ftxui::Color::Cyan) | ftxui::bold : ftxui::nothing));
+        for (int i=0; i<options.size(); i++) {
+            ftxui::Element optionText = ftxui::text("  " + options[i] + "  ");
+            if (i == selectedIndex) {
+                if (field == Field::Priority) {
+                    if (i == 0) optionText |= ftxui::bgcolor(ftxui::Color::Red);
+                    else if (i == 1) optionText |= ftxui::bgcolor(ftxui::Color::Yellow);
+                    else if (i == 2) optionText |= ftxui::bgcolor(ftxui::Color::Green);
+                    else optionText |= ftxui::bgcolor(ftxui::Color::GrayDark);
+                } else if (field == Field::Status) {
+                    if (i == 0) optionText |= ftxui::bgcolor(ftxui::Color::Yellow);
+                    else optionText |= ftxui::bgcolor(ftxui::Color::Green);
+                }
+                optionText |= ftxui::color(ftxui::Color::Black) | ftxui::bold;
+            } else {
+                optionText |= ftxui::dim;
+            }
+            pills.push_back(optionText);
+            pills.push_back(ftxui::text(" "));
+        }
+        return ftxui::hbox(std::move(pills)) | ftxui::border;
+    };
+
     return ftxui::vbox({
         ftxui::text(formTitle) | ftxui::bold | ftxui::center,
         ftxui::separator(),
@@ -231,11 +261,11 @@ ftxui::Element drawTaskDetailsForm(const std::string& formTitle) {
         focusOnField(Field::Name,        "Name           ", taskNameBuffer),
         focusOnField(Field::Description, "Description    ", taskDescBuffer),
         focusOnField(Field::DueDate,     "Due Date       ", dateBuffer),
-        focusOnField(Field::Status,      "Status         ", statusBuffer),
-        focusOnField(Field::Priority,    "Priority       ", priorityBuffer),
+        drawPills(Field::Status,         "Status         ", statusOptions, selectedStatusIndex),
+        drawPills(Field::Priority,       "Priority       ", priorityOptions, selectedPriorityIndex),
         ftxui::filler(),
         ftxui::separator(),
-        ftxui::text("TAB/Up/Down: Switch Field  |  ENTER: Save  |  ESC: Cancel") | ftxui::dim | ftxui::center,
+        ftxui::text("TAB/Up/Down: Switch Field  |  Left/Right: Change Options  |  ENTER: Save  |  ESC: Cancel") | ftxui::dim | ftxui::center,
     }) | ftxui::border;
 }
 
@@ -299,8 +329,12 @@ bool handleEvent(ftxui::Event event) {
             taskNameBuffer = taskToBeEdited.taskName;
             taskDescBuffer = taskToBeEdited.taskDesc;
             dateBuffer = taskToBeEdited.date;
-            statusBuffer = taskToBeEdited.completed ? "DONE" : "TODO";
-            priorityBuffer = std::to_string(taskToBeEdited.priority);
+            selectedStatusIndex = taskToBeEdited.completed ? 1 : 0;
+            
+            if (taskToBeEdited.priority == 1) selectedPriorityIndex = 0;
+            else if (taskToBeEdited.priority == 2) selectedPriorityIndex = 1;
+            else if (taskToBeEdited.priority == 3) selectedPriorityIndex = 2;
+            else selectedPriorityIndex = 3;
 
             currentState = ScreenState::EDIT_TASK;
             return true;
@@ -389,7 +423,7 @@ bool handleEvent(ftxui::Event event) {
             return true;
         }
 
-        handleTyping(event);
+        handleTypingAndSelection(event);
     }
     else if (currentState == ScreenState::EDIT_TASK) {
         if (event == ftxui::Event::Escape) {
@@ -413,7 +447,7 @@ bool handleEvent(ftxui::Event event) {
             return true;
         }
 
-        handleTyping(event);
+        handleTypingAndSelection(event);
     }
 
     return false;
