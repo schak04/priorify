@@ -28,7 +28,7 @@ ScreenState currentState = ScreenState::DASHBOARD;
 std::string taskNameBuffer = "";
 std::string taskDescBuffer = "";
 std::string dateBuffer = ""; // dd-mm-yyyy; using string for now, will migrate to date obj later
-std::string statusBuffer = ""; // Pending, Ongoing, Completed/Done -> TODO: dropdown
+std::string statusBuffer = ""; // Pending, Ongoing, Completed/Done -> TODO: radio
 std::string priorityBuffer = ""; // High/Medium/Low (any case) or 1/2/3 (0 otherwise)
 
 // state updates
