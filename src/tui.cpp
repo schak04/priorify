@@ -19,10 +19,12 @@ enum class ScreenState {
     ADD_TASK,
     CONFIRM_DELETE,
     CONFIRM_CLEAR_ALL,
-    EDIT_TASK
+    EDIT_TASK,
+    CALENDAR_PICKER
 };
 
 ScreenState currentState = ScreenState::DASHBOARD;
+ScreenState previousState = ScreenState::DASHBOARD;
 
 // input buffers for task creation + editing
 std::string taskNameBuffer = "";
@@ -295,6 +297,23 @@ ftxui::Element drawConfirmClearAll() {
     }) | ftxui::border | ftxui::center;
 }
 
+ftxui::Element drawCalendarPicker() {
+    auto cell = [](const char* t) {return ftxui::text(t) | ftxui::border;};
+    auto sampleCalendar = ftxui::gridbox({
+        {cell("1"), cell("1"), cell("1")},
+        {cell("1"), cell("1"), cell("1")},
+        {cell("1"), cell("1"), cell("1")},
+    });
+    return ftxui::vbox({
+        ftxui::text(" SELECT DUE DATE ") | ftxui::bold | ftxui::center | ftxui::color(ftxui::Color::Cyan),
+        ftxui::separator(),
+        ftxui::filler(),
+        sampleCalendar,
+        ftxui::filler(),
+        ftxui::separator(),
+    }) | ftxui::border | ftxui::center;
+}
+
 ftxui::Element makeTUI() {
     if (currentState == ScreenState::DASHBOARD) {
         return drawDashboard();
@@ -306,6 +325,8 @@ ftxui::Element makeTUI() {
         return drawConfirmDelete();
     } else if (currentState == ScreenState::CONFIRM_CLEAR_ALL) {
         return drawConfirmClearAll();
+    } else if (currentState == ScreenState::CALENDAR_PICKER) {
+        return drawCalendarPicker();
     }
     return ftxui::text("How'd you even get here?") | ftxui::center;
 }
@@ -415,6 +436,12 @@ bool handleEvent(ftxui::Event event) {
             return true;
         }
         if (event == ftxui::Event::Return) {
+            if (activeField == Field::DueDate) {
+                previousState = currentState;
+                currentState = ScreenState::CALENDAR_PICKER;
+                return true;
+            }
+
             Task task = parseTaskFromBuffers();
             TaskManager manager;
             manager.addTask(task);
@@ -439,6 +466,12 @@ bool handleEvent(ftxui::Event event) {
             return true;
         }
         if (event == ftxui::Event::Return) {
+            if (activeField == Field::DueDate) {
+                previousState = currentState;
+                currentState = ScreenState::CALENDAR_PICKER;
+                return true;
+            }
+
             Task task = parseTaskFromBuffers();
             TaskManager manager;
             manager.updateTask(cachedTasks[selectedTaskIndex], task);
@@ -448,6 +481,12 @@ bool handleEvent(ftxui::Event event) {
         }
 
         handleTypingAndSelection(event);
+    }
+    else if (currentState == ScreenState::CALENDAR_PICKER) {
+        if (event == ftxui::Event::Escape) {
+            currentState = previousState;
+            return true;        
+        }
     }
 
     return false;
