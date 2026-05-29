@@ -1,6 +1,7 @@
 #include <string>
 #include <cctype>
 #include <vector>
+#include <chrono>
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/screen_interactive.hpp>
 #include <ftxui/dom/elements.hpp>
