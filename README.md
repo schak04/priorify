@@ -106,12 +106,16 @@ Always run the executable from the project root to ensure the database path (`da
 ---
 
 ## References
-1. [**cppreference**](https://en.cppreference.com/cpp/language)
-2. [**SQLite documentation**](https://sqlite.org/docs.html)
-3. **Chrono:** [**GfG**](https://www.geeksforgeeks.org/cpp/chrono-in-c) and [**cppreference**](https://en.cppreference.com/cpp/chrono)
-4. [**FTXUI documentation**](https://arthursonzogni.github.io/FTXUI)
-5. **CMake:** [**documentation**](https://cmake.org/cmake/help/latest/index.html) and [**tutorial**](https://cmake.org/cmake/help/latest/guide/tutorial/index.html#guide:CMake%20Tutorial)
-6. [**StackOverflow** - **difference between include guards and #pragma once**](https://stackoverflow.com/questions/22193338/what-is-the-difference-between-ifndef-and-pragma-once-and-what-does-the-same)
+
+### Main
+- **C++:** [**cppreference**](https://en.cppreference.com/cpp/language)
+- **SQLite:** [**documentation**](https://sqlite.org/docs.html)
+- **FTXUI:** [**documentation**](https://arthursonzogni.github.io/FTXUI)
+- **CMake:** [**documentation**](https://cmake.org/cmake/help/latest/index.html) and [**tutorial**](https://cmake.org/cmake/help/latest/guide/tutorial/index.html#guide:CMake%20Tutorial)
+- **Chrono:** [**GfG**](https://www.geeksforgeeks.org/cpp/chrono-in-c) and [**cppreference**](https://en.cppreference.com/cpp/chrono)
+
+### More
+- [**StackOverflow** - **difference between include guards and #pragma once**](https://stackoverflow.com/questions/22193338/what-is-the-difference-between-ifndef-and-pragma-once-and-what-does-the-same)
 
 ---
 
