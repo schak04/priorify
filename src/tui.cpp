@@ -31,12 +31,16 @@ ScreenState previousState = ScreenState::DASHBOARD;
 std::string taskNameBuffer = "";
 std::string taskDescBuffer = "";
 std::string dateBuffer = ""; // dd-mm-yyyy; using string for now, will migrate to date obj later
-
+// status and priority states
 const std::vector<std::string> statusOptions = {"TODO", "DONE"};
 int selectedStatusIndex = 0;
-
 const std::vector<std::string> priorityOptions = {"High", "Medium", "Low", "None"};
 int selectedPriorityIndex = 3;
+// due date -> calendar states
+int calViewingYear = 2026;
+int calViewingMonth = 1;
+int calCursorDay = 1;
+bool calInitialised = false;
 
 // state updates
 std::vector<Task> cachedTasks;
