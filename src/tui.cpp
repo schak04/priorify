@@ -172,7 +172,7 @@ void initCalendar() {
     const auto now = std::chrono::system_clock::now(); 
     
     // calendar representation (cuz now is a time_point, not a calendar date) -> need to store data in yyyy-mm-dd format. for future ref: https://en.cppreference.com/cpp/chrono/year_month_day
-    // round down now to day precision (example: 2026-05-29 18:52:11 -> 2026-05-29 00:00:00) because std::chrono::year_month_day cannot directly understand a high precision time_point with hours/mins/secs/nanosecs. It expects a sys_days. (sys_days -> time_point truncated to whole days)
+    // round down now to day precision (example: 2026-05-29 18:52:11 -> 2026-05-29 00:00:00) because std::chrono::year_month_day cannot directly understand a high precision time_point with hours/mins/secs/nanosecs. It expects a sys_days. (sys_days -> time_point truncated to whole days). Note: sys_days is also basically days elapsed since Unix epoch.
     std::chrono::year_month_day today{std::chrono::floor<std::chrono::days>(now)};
     
     calViewingYear = static_cast<int>(today.year());
