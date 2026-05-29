@@ -166,6 +166,35 @@ Task parseTaskFromBuffers() {
     return task;
 }
 
+void initCalendar() {
+    // figure out today
+    // now -> a std::chrono::time_point representing the current point in time. for future ref: https://en.cppreference.com/cpp/chrono/system_clock/now
+    const auto now = std::chrono::system_clock::now(); 
+    
+    // calendar representation (cuz now is a time_point, not a calendar date) -> need to store data in yyyy-mm-dd format. for future ref: https://en.cppreference.com/cpp/chrono/year_month_day
+    // round down now to day precision (example: 2026-05-29 18:52:11 -> 2026-05-29 00:00:00) because std::chrono::year_month_day cannot directly understand a high precision time_point with hours/mins/secs/nanosecs. It expects a sys_days. (sys_days -> time_point truncated to whole days)
+    std::chrono::year_month_day today{std::chrono::floor<std::chrono::days>(now)};
+    
+    calViewingYear = static_cast<int>(today.year());
+    calViewingMonth = static_cast<int>(today.month());
+    calCursorDay = static_cast<int>(today.day());
+    calInitialised = true;
+}
+
+// these two are needed by drawCalendarPicker()
+int getDaysInMonth(int year, int month) {
+    std::chrono::year_month ym{std::chrono::year(year), std::chrono::month(month)}; // represent the given month/year as a calendar month
+    std::chrono::year_month_day_last ymdl{ym/std::chrono::last}; // get the "last day of this month" (calendar rep)
+    return static_cast<int>(ymdl.day());
+}
+int getStartingWeekday(int year, int month) { // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
+    std::chrono::year_month_day firstOfMonth{std::chrono::year(year), std::chrono::month(month), std::chrono::day(1)};
+    std::chrono::sys_days firstSysDays = firstOfMonth; // (time_point) because weekday works with sys_days
+    std::chrono::weekday firstWeekday{firstSysDays};
+    // convert weekday into a number
+    return firstWeekday.c_encoding();
+}
+
 /*
 ---------- TUI Rendering ----------
 */
