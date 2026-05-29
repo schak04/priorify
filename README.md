@@ -105,6 +105,15 @@ Always run the executable from the project root to ensure the database path (`da
 
 ---
 
+## References
+1. [**cppreference**](https://en.cppreference.com/cpp/language)
+2. [**GfG - Chrono in C++**](https://www.geeksforgeeks.org/cpp/chrono-in-c)
+3. [**FTXUI documentation**](https://arthursonzogni.github.io/FTXUI)
+4. **CMake:** [**documentation**](https://cmake.org/cmake/help/latest/index.html) and [**tutorial**](https://cmake.org/cmake/help/latest/guide/tutorial/index.html#guide:CMake%20Tutorial)
+5. [**StackOverflow** - **difference between include guards and #pragma once**](https://stackoverflow.com/questions/22193338/what-is-the-difference-between-ifndef-and-pragma-once-and-what-does-the-same)
+
+---
+
 ## Author
 
 &copy; 2025-2026 [Saptaparno Chakraborty](https://github.com/schak04).  
