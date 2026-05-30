@@ -302,7 +302,7 @@ ftxui::Element drawTaskDetailsForm(const std::string& formTitle) {
         drawPills(Field::Priority,       "Priority       ", priorityOptions, selectedPriorityIndex),
         ftxui::filler(),
         ftxui::separator(),
-        ftxui::text("TAB/Up/Down: Switch Field  |  Left/Right: Change Options  |  ENTER: Save  |  ESC: Cancel") | ftxui::dim | ftxui::center,
+        ftxui::text("TAB/Up/Down: Switch Field  |  Left/Right: Change Options  |  Spacebar on Due Date field: Pick Date from Calendar  |  ENTER: Save  |  ESC: Cancel") | ftxui::dim | ftxui::center,
     }) | ftxui::border;
 }
 
@@ -521,13 +521,12 @@ bool handleEvent(ftxui::Event event) {
             --activeField;
             return true;
         }
+        if (activeField == Field::DueDate && event == ftxui::Event::Character(' ')) {
+            previousState = currentState;
+            currentState = ScreenState::CALENDAR_PICKER;
+            return true;
+        }
         if (event == ftxui::Event::Return) {
-            if (activeField == Field::DueDate) {
-                previousState = currentState;
-                currentState = ScreenState::CALENDAR_PICKER;
-                return true;
-            }
-
             Task task = parseTaskFromBuffers();
             TaskManager manager;
             manager.addTask(task);
@@ -551,13 +550,12 @@ bool handleEvent(ftxui::Event event) {
             --activeField;
             return true;
         }
+        if (activeField == Field::DueDate && event == ftxui::Event::Character(' ')) {
+            previousState = currentState;
+            currentState = ScreenState::CALENDAR_PICKER;
+            return true;
+        }
         if (event == ftxui::Event::Return) {
-            if (activeField == Field::DueDate) {
-                previousState = currentState;
-                currentState = ScreenState::CALENDAR_PICKER;
-                return true;
-            }
-
             Task task = parseTaskFromBuffers();
             TaskManager manager;
             manager.updateTask(cachedTasks[selectedTaskIndex], task);
