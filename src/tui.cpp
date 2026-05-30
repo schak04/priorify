@@ -333,17 +333,45 @@ ftxui::Element drawConfirmClearAll() {
 }
 
 ftxui::Element drawCalendarPicker() {
-    auto cell = [](const char* t) {return ftxui::text(t) | ftxui::border;};
-    auto sampleCalendar = ftxui::gridbox({
-        {cell("1"), cell("1"), cell("1")},
-        {cell("1"), cell("1"), cell("1")},
-        {cell("1"), cell("1"), cell("1")},
-    });
+    if (!calInitialised) initCalendar();
+    
+    int daysInMonth = getDaysInMonth(calViewingYear, calViewingMonth);
+    int startingWeekday = getStartingWeekday(calViewingYear, calViewingMonth);
+    
+    std::vector<ftxui::Elements> calRows;
+    
+    auto headerCell = [](const char* t) {return ftxui::text(t) | ftxui::bold | ftxui::color(ftxui::Color::Yellow) | ftxui::center | ftxui::size(ftxui::WIDTH, ftxui::EQUAL, 6);};
+    calRows.push_back({headerCell("Su"), headerCell("Mo"), headerCell("Tu"), headerCell("We"), headerCell("Th"), headerCell("Fr"), headerCell("Sa")});    
+    
+    ftxui::Elements currentRow;
+    for (int i=0; i<startingWeekday; i++) {
+        currentRow.push_back(ftxui::text("  ") | ftxui::size(ftxui::WIDTH, ftxui::EQUAL, 6));
+    }
+    for (unsigned day=1; day<=daysInMonth; day++) {
+        std::string dayStr = std::to_string(day);
+        if (dayStr.length()==1) dayStr = " "+dayStr;
+        auto dayText = ftxui::text(dayStr) | ftxui::center | ftxui::size(ftxui::WIDTH, ftxui::EQUAL, 6);
+        if (day==calCursorDay) dayText |= ftxui::inverted;
+        currentRow.push_back(dayText);
+        if (currentRow.size()==7) {
+            calRows.push_back(currentRow);
+            currentRow.clear(); 
+        }
+    }
+    if (!currentRow.empty()) {
+        while (currentRow.size()<7) {
+            currentRow.push_back(ftxui::text(" "));
+        }
+    }
+    calRows.push_back(currentRow);
+
+    auto calendar = ftxui::gridbox(calRows);
+
     return ftxui::vbox({
         ftxui::text(" SELECT DUE DATE ") | ftxui::bold | ftxui::center | ftxui::color(ftxui::Color::Cyan),
         ftxui::separator(),
         ftxui::filler(),
-        sampleCalendar,
+        calendar,
         ftxui::filler(),
         ftxui::separator(),
     }) | ftxui::border | ftxui::center;
