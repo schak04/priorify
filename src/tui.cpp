@@ -171,11 +171,11 @@ void initCalendar() {
     // figure out today
     // now -> a std::chrono::time_point representing the current point in time. for future ref: https://en.cppreference.com/cpp/chrono/system_clock/now
     const auto now = std::chrono::system_clock::now(); 
-    
+
     // calendar representation (cuz now is a time_point, not a calendar date) -> need to store data in yyyy-mm-dd format. for future ref: https://en.cppreference.com/cpp/chrono/year_month_day
     // round down now to day precision (example: 2026-05-29 18:52:11 -> 2026-05-29 00:00:00) because std::chrono::year_month_day cannot directly understand a high precision time_point with hours/mins/secs/nanosecs. It expects a sys_days. (sys_days -> time_point truncated to whole days). Note: sys_days is also basically days elapsed since Unix epoch.
     std::chrono::year_month_day today{std::chrono::floor<std::chrono::days>(now)};
-    
+
     calViewingYear = static_cast<int>(today.year());
     calViewingMonth = static_cast<unsigned>(today.month());
     calCursorDay = static_cast<unsigned>(today.day());
@@ -202,7 +202,7 @@ int getStartingWeekday(int year, unsigned month) { // 0 for Sunday, 1 for Monday
 
 ftxui::Element drawDashboard() {
     ftxui::Elements taskElements;
-    
+
     if (cachedTasks.empty()) {
         taskElements.push_back(ftxui::text("No tasks found. Press 'a' to add one!") | ftxui::center | ftxui::dim);
     } else {
@@ -334,15 +334,15 @@ ftxui::Element drawConfirmClearAll() {
 
 ftxui::Element drawCalendarPicker() {
     if (!calInitialised) initCalendar();
-    
+
     int daysInMonth = getDaysInMonth(calViewingYear, calViewingMonth);
     int startingWeekday = getStartingWeekday(calViewingYear, calViewingMonth);
-    
+
     std::vector<ftxui::Elements> calRows;
-    
+
     auto headerCell = [](const char* t) {return ftxui::text(t) | ftxui::bold | ftxui::color(ftxui::Color::Yellow) | ftxui::center | ftxui::size(ftxui::WIDTH, ftxui::EQUAL, 6);};
     calRows.push_back({headerCell("Su"), headerCell("Mo"), headerCell("Tu"), headerCell("We"), headerCell("Th"), headerCell("Fr"), headerCell("Sa")});    
-    
+
     ftxui::Elements currentRow;
     for (int i=0; i<startingWeekday; i++) {
         currentRow.push_back(ftxui::text("  ") | ftxui::size(ftxui::WIDTH, ftxui::EQUAL, 6));
@@ -414,7 +414,7 @@ bool handleEvent(ftxui::Event event) {
             taskDescBuffer = taskToBeEdited.taskDesc;
             dateBuffer = taskToBeEdited.date;
             selectedStatusIndex = taskToBeEdited.completed ? 1 : 0;
-            
+
             if (taskToBeEdited.priority == 1) selectedPriorityIndex = 0;
             else if (taskToBeEdited.priority == 2) selectedPriorityIndex = 1;
             else if (taskToBeEdited.priority == 3) selectedPriorityIndex = 2;
