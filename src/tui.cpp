@@ -367,8 +367,13 @@ ftxui::Element drawCalendarPicker() {
 
     auto calendar = ftxui::gridbox(calRows);
 
+    std::vector<std::string> monthNames = {"January", "February", "March", "April", "May",
+                                           "June", "July", "August", "September", "October",
+                                           "November", "December"};
+    std::string monthNameAndYear = monthNames[calViewingMonth-1] + " " + std::to_string(calViewingYear);
+
     return ftxui::vbox({
-        ftxui::text(" SELECT DUE DATE ") | ftxui::bold | ftxui::center | ftxui::color(ftxui::Color::Cyan),
+        ftxui::text(monthNameAndYear) | ftxui::bold | ftxui::center | ftxui::color(ftxui::Color::Cyan),
         ftxui::separator(),
         ftxui::filler(),
         calendar,
