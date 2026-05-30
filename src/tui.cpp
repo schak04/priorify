@@ -365,12 +365,29 @@ ftxui::Element drawCalendarPicker() {
     }
     calRows.push_back(currentRow);
 
-    auto calendar = ftxui::gridbox(calRows);
+    auto calendar = ftxui::gridbox(calRows) | ftxui::center;
 
     std::vector<std::string> monthNames = {"January", "February", "March", "April", "May",
                                            "June", "July", "August", "September", "October",
                                            "November", "December"};
     std::string monthNameAndYear = monthNames[calViewingMonth-1] + " " + std::to_string(calViewingYear);
+
+    auto keyHint = [](std::string key, std::string purpose) {
+        return ftxui::hbox({
+            ftxui::text(key) | ftxui::bold | ftxui::color(ftxui::Color::Yellow),
+            ftxui::text(": "+purpose+"  ") | ftxui::dim
+        });
+    };
+    auto hints = ftxui::vbox({
+        ftxui::hbox({
+            keyHint("  ]/[", "Change Month"),
+            keyHint("h/j/k/l/arrows", "Move Day Cursor")
+        }) | ftxui::center,
+        ftxui::hbox({
+            keyHint("  Enter", "Select Date"),
+            keyHint("Esc", "Cancel")
+        }) | ftxui::center
+    });
 
     return ftxui::vbox({
         ftxui::text(monthNameAndYear) | ftxui::bold | ftxui::center | ftxui::color(ftxui::Color::Cyan),
@@ -379,6 +396,7 @@ ftxui::Element drawCalendarPicker() {
         calendar,
         ftxui::filler(),
         ftxui::separator(),
+        hints
     }) | ftxui::border | ftxui::center;
 }
 
