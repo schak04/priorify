@@ -92,6 +92,13 @@ Field& operator--(Field& field) {
 ---------- Helper Functions ----------
 */
 
+ftxui::Element keyHint(const std::string& key, const std::string& purpose) {
+    return ftxui::hbox({
+        ftxui::text(" " + key + ": ") | ftxui::bold | ftxui::color(ftxui::Color::Yellow),
+        ftxui::text(purpose + "  ") | ftxui::dim
+    });
+}
+
 // strings to lowercase
 std::string to_lower(std::string s) {
     for (char& c : s) {
@@ -372,12 +379,6 @@ ftxui::Element drawCalendarPicker() {
                                            "November", "December"};
     std::string monthNameAndYear = monthNames[calViewingMonth-1] + " " + std::to_string(calViewingYear);
 
-    auto keyHint = [](std::string key, std::string purpose) {
-        return ftxui::hbox({
-            ftxui::text(key) | ftxui::bold | ftxui::color(ftxui::Color::Yellow),
-            ftxui::text(": "+purpose+"  ") | ftxui::dim
-        });
-    };
     auto hints = ftxui::vbox({
         ftxui::hbox({
             keyHint("  ]/[", "Change Month"),
