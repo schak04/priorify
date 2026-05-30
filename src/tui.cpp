@@ -550,6 +550,58 @@ bool handleEvent(ftxui::Event event) {
             currentState = previousState;
             return true;        
         }
+
+        int daysInMonth = getDaysInMonth(calViewingYear, calViewingMonth);
+ 
+        if (event == ftxui::Event::Character('l') || event == ftxui::Event::ArrowRight) {
+            calCursorDay++;
+            if (calCursorDay>daysInMonth) calCursorDay = daysInMonth;
+            return true;
+        }
+        if (event == ftxui::Event::Character('h') || event == ftxui::Event::ArrowLeft) {
+            if (calCursorDay>1) calCursorDay--;
+            else calCursorDay = 1;
+            return true;
+        }
+        if (event == ftxui::Event::Character('j') || event == ftxui::Event::ArrowDown) {
+            calCursorDay += 7;
+            if (calCursorDay>daysInMonth) calCursorDay = daysInMonth;
+            return true;
+        }
+        if (event == ftxui::Event::Character('k') || event == ftxui::Event::ArrowUp) {
+            if (calCursorDay>7) calCursorDay -= 7;
+            else calCursorDay = 1;
+            return true;
+        }
+
+        if (event == ftxui::Event::Character(']')) {
+            calViewingMonth++;
+            if (calViewingMonth>12) {
+                calViewingMonth = 1;
+                calViewingYear++;
+            }
+            int newDays = getDaysInMonth(calViewingYear, calViewingMonth);
+            if (calCursorDay>newDays) calCursorDay = newDays;
+            return true;
+        }
+        if (event == ftxui::Event::Character('[')) {
+            calViewingMonth--;
+            if (calViewingMonth<1) {
+                calViewingMonth = 12;
+                calViewingYear--;
+            }
+            int newDays = getDaysInMonth(calViewingYear, calViewingMonth);
+            if (calCursorDay>newDays) calCursorDay = newDays;
+            return true;
+        }
+
+        if (event == ftxui::Event::Return) {
+            std::string d = (calCursorDay<10 ? "0" : "") + std::to_string(calCursorDay);
+            std::string m = (calViewingMonth<10 ? "0" : "") + std::to_string(calViewingMonth);
+            dateBuffer = d + "-" + m + "-" + std::to_string(calViewingYear);
+            currentState = previousState;
+            return true;
+        }
     }
 
     return false;
