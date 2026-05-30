@@ -37,9 +37,10 @@ int selectedStatusIndex = 0;
 const std::vector<std::string> priorityOptions = {"High", "Medium", "Low", "None"};
 int selectedPriorityIndex = 3;
 // due date -> calendar states
+// month/day are stored as unsigned to match std::chrono::month/day's underlying value type
 int calViewingYear = 2026;
-int calViewingMonth = 1;
-int calCursorDay = 1;
+unsigned calViewingMonth = 1;
+unsigned calCursorDay = 1;
 bool calInitialised = false;
 
 // state updates
@@ -176,18 +177,18 @@ void initCalendar() {
     std::chrono::year_month_day today{std::chrono::floor<std::chrono::days>(now)};
     
     calViewingYear = static_cast<int>(today.year());
-    calViewingMonth = static_cast<int>(today.month());
-    calCursorDay = static_cast<int>(today.day());
+    calViewingMonth = static_cast<unsigned>(today.month());
+    calCursorDay = static_cast<unsigned>(today.day());
     calInitialised = true;
 }
 
 // these two are needed by drawCalendarPicker()
-int getDaysInMonth(int year, int month) {
+int getDaysInMonth(int year, unsigned month) {
     std::chrono::year_month ym{std::chrono::year(year), std::chrono::month(month)}; // represent the given month/year as a calendar month
     std::chrono::year_month_day_last ymdl{ym/std::chrono::last}; // get the "last day of this month" (calendar rep)
-    return static_cast<int>(ymdl.day());
+    return static_cast<unsigned>(ymdl.day());
 }
-int getStartingWeekday(int year, int month) { // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
+int getStartingWeekday(int year, unsigned month) { // 0 for Sunday, 1 for Monday, ..., 6 for Saturday
     std::chrono::year_month_day firstOfMonth{std::chrono::year(year), std::chrono::month(month), std::chrono::day(1)};
     std::chrono::sys_days firstSysDays = firstOfMonth; // (time_point) because weekday works with sys_days
     std::chrono::weekday firstWeekday{firstSysDays};
