@@ -243,12 +243,12 @@ ftxui::Element drawDashboard() {
         ftxui::vbox(std::move(taskElements)) | ftxui::vscroll_indicator | ftxui::frame | ftxui::flex,
         ftxui::separator(),
         ftxui::hbox({
-            ftxui::text(" a") | ftxui::bold, ftxui::text(":Add  "),
-            ftxui::text("e") | ftxui::bold, ftxui::text(":Edit  "),
-            ftxui::text("d") | ftxui::bold, ftxui::text(":Delete  "),
-            ftxui::text("D") | ftxui::bold, ftxui::text(":Clear all  "),
-            ftxui::text("c") | ftxui::bold, ftxui::text(":Toggle completion status  "),
-            ftxui::text("q/esc") | ftxui::bold, ftxui::text(":Quit"),
+            keyHint("a", "Add"),
+            keyHint("e", "Edit"),
+            keyHint("d", "Delete"),
+            keyHint("D", "Clear all"),
+            keyHint("c", "Toggle completion status"),
+            keyHint("q/Esc", "Quit"),
             ftxui::filler(),
             ftxui::text("v2.0.0 ") | ftxui::dim,
         })
@@ -309,7 +309,17 @@ ftxui::Element drawTaskDetailsForm(const std::string& formTitle) {
         drawPills(Field::Priority,       "Priority       ", priorityOptions, selectedPriorityIndex),
         ftxui::filler(),
         ftxui::separator(),
-        ftxui::text("TAB/Up/Down: Switch Field  |  Left/Right: Change Options  |  Spacebar on Due Date field: Pick Date from Calendar  |  ENTER: Save  |  ESC: Cancel") | ftxui::dim | ftxui::center,
+        ftxui::vbox({
+            ftxui::hbox({
+                keyHint("TAB/Up/Down", "Switch Field"),
+                keyHint("Left/Right", "Change Options"),
+                keyHint("Spacebar (on Due Date)", "Pick Date from Calendar")
+            }) | ftxui::center,
+            ftxui::hbox({
+                keyHint("Enter", "Save"),
+                keyHint("Esc", "Cancel")
+            }) | ftxui::center
+        })
     }) | ftxui::border;
 }
 
@@ -322,7 +332,10 @@ ftxui::Element drawConfirmDelete() {
         ftxui::text("\"" + cachedTasks[selectedTaskIndex].taskName + "\"") | ftxui::bold | ftxui::center | ftxui::color(ftxui::Color::Yellow),
         ftxui::filler(),
         ftxui::separator(),
-        ftxui::text(" [y/enter] Yes, I want to delete it.  |  [n/esc] No, that was a mistake. ") | ftxui::center,
+        ftxui::hbox({
+            keyHint("y/Enter", "Yes, delete it"),
+            keyHint("n/Esc", "No, cancel")
+        }) | ftxui::center,
     }) | ftxui::border | ftxui::center;
 }
 
@@ -335,7 +348,10 @@ ftxui::Element drawConfirmClearAll() {
         ftxui::text("This action CANNOT be undone.") | ftxui::center | ftxui::color(ftxui::Color::Red),
         ftxui::filler(),
         ftxui::separator(),
-        ftxui::text(" [y] Yes, NUKE.  |  [n/esc] No, abort. ") | ftxui::center,
+        ftxui::hbox({
+            keyHint("y", "Yes, NUKE"),
+            keyHint("n/Esc", "No, abort")
+        }) | ftxui::center,
     }) | ftxui::border | ftxui::center;
 }
 
