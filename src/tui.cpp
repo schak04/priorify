@@ -30,7 +30,7 @@ ScreenState previousState = ScreenState::DASHBOARD;
 // input buffers for task creation + editing
 std::string taskNameBuffer = "";
 std::string taskDescBuffer = "";
-std::string dateBuffer = ""; // dd-mm-yyyy; using string for now, will migrate to date obj later
+std::string dateBuffer = "";
 // status and priority states
 const std::vector<std::string> statusOptions = {"TODO", "DONE"};
 int selectedStatusIndex = 0;
