@@ -29,6 +29,7 @@ Through this project, I intend to improve the way I track my tasks, solving a pe
 - **Vim-like Navigation:** `h`/`j`/`k`/`l`
 - Custom pill toggles for selecting task status and priority.
 - **Task Management:** Add, update, complete, and delete (and clear all) tasks instantly.
+- **Calendar Picker:** For date selection (due date) while adding/editing a task.
 - **Visual Feedback:** Colour-coded priority bars and active-state highlights.
 - **Persistent Storage:** SQLite database safely stores all task data.
 - **Performance Optimised:** In-memory caching minimises database polling.
