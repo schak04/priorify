@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-echo "Building..."
 chmod +x scripts/build.sh
 ./scripts/build.sh
 
+echo ""
 echo "Installing and moving stuff around so your puter can find 'em..."
 INSTALL_DIR="$HOME/.local/share/priorify"
 BIN_DIR="$HOME/.local/bin"
