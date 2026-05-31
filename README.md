@@ -119,6 +119,18 @@ Always run the executable from the project root to ensure the database path (`da
 
 ---
 
+## ASCII Art
+
+> I tried using different sites (such as: https://patorjk.com/software/taag, https://coddy.tech/tools/ascii-art-generator, etc.) to create ASCII art from typed text, but they were all too gigantic, and even when small, they didn't match the image I had in mind. The sites are great though, no complaints. I just wanted the logo to fit within 2 lines, so I used Unicode block elements to manually create the ASCII art myself for the app's name (visible on the dashboard). 
+> Characters Used:
+> - █ (Full Block: U+2588)
+> - ▀ (Upper Half Block: U+2580)
+> - ▄ (Lower Half Block: U+2584)
+
+**Reference:** [**WikiPedia - Block Elements**](https://en.wikipedia.org/wiki/Block_Elements)
+
+---
+
 ## Author
 
 &copy; 2025-2026 [Saptaparno Chakraborty](https://github.com/schak04).  
