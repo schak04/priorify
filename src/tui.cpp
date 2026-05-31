@@ -390,10 +390,10 @@ ftxui::Element drawCalendarPicker() {
 
     auto calendar = ftxui::gridbox(calRows) | ftxui::center;
 
-    std::vector<std::string> monthNames = {"January", "February", "March", "April", "May",
-                                           "June", "July", "August", "September", "October",
-                                           "November", "December"};
-    std::string monthNameAndYear = monthNames[calViewingMonth-1] + " " + std::to_string(calViewingYear);
+    static const char* const monthNames[] = {"January", "February", "March", "April", "May",
+                                             "June", "July", "August", "September", "October",
+                                             "November", "December"};
+    std::string monthNameAndYear = std::string(monthNames[calViewingMonth-1]) + " " + std::to_string(calViewingYear);
 
     auto hints = ftxui::vbox({
         ftxui::hbox({

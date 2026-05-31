@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-void TaskManager::addTask(Task task) {
+void TaskManager::addTask(const Task& task) {
     if (addTaskToDB(task)) {
         std::cout << "Task added successfully.\n";
     } else {
@@ -30,11 +30,11 @@ void TaskManager::showAllTasks() {
     std::cout << "--------------------------\n";
 }
 
-void TaskManager::updateTask(Task& og, Task& edited) {
+void TaskManager::updateTask(const Task& og, const Task& edited) {
     updateTaskInDB(og, edited);
 }
 
-void TaskManager::toggleCompletionStatus(Task& t) {
+void TaskManager::toggleCompletionStatus(const Task& t) {
     toggleCompletionStatusInDB(t);
 }
 

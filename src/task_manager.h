@@ -7,10 +7,10 @@
 
 class TaskManager {
 public:
-    void addTask(Task task);
+    void addTask(const Task& task);
     void showAllTasks();
-    void updateTask(Task& og, Task& edited);
-    void toggleCompletionStatus(Task& t);
+    void updateTask(const Task& og, const Task& edited);
+    void toggleCompletionStatus(const Task& t);
     void removeTask(const Task& t);
     void clearAllTasks();
     std::vector<Task> getTasks();
