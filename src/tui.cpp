@@ -21,7 +21,8 @@ enum class ScreenState {
     CONFIRM_DELETE,
     CONFIRM_CLEAR_ALL,
     EDIT_TASK,
-    CALENDAR_PICKER
+    CALENDAR_PICKER,
+    ABOUT
 };
 
 ScreenState currentState = ScreenState::DASHBOARD;
@@ -257,7 +258,8 @@ ftxui::Element drawDashboard() {
             keyHint("c", "Toggle completion status"),
             keyHint("q/Esc", "Quit"),
             ftxui::filler(),
-            ftxui::text("v2.0.0 ") | ftxui::dim,
+            keyHint("?", "About"),
+            ftxui::text("v2.0.0 ") | ftxui::color(ftxui::Color::Cyan) | ftxui::bold
         })
     }) | ftxui::borderRounded;
 }
@@ -424,6 +426,29 @@ ftxui::Element drawCalendarPicker() {
     }) | ftxui::borderRounded | ftxui::center;
 }
 
+ftxui::Element drawAboutScreen() {
+    return ftxui::vbox({
+        drawLogo(),
+        ftxui::separator(),
+        ftxui::filler(),
+        ftxui::text("A minimalist, terminal-based task manager made for absolute focus.") | ftxui::center | ftxui::bold,
+        ftxui::text("This project is intended to help users manage and prioritise their tasks with zero distractions.") | ftxui::center,
+        ftxui::text(""),
+        ftxui::text("Built by a programmer, for programmers (and non-programmers too, won't gatekeep).") | ftxui::center | ftxui::color(ftxui::Color::Yellow),
+        ftxui::text("I created this to make my own task-tracking easier because I'm mostly on my puter") | ftxui::center,
+        ftxui::text("(in the terminal) and really enjoy TUI apps (and C++).") | ftxui::center,
+        ftxui::text("I hope it helps other programmers (and non-programmers) who enjoy TUI apps too.") | ftxui::center,
+        ftxui::text(""),
+        ftxui::text("~ Saptaparno Chakraborty") | ftxui::center | ftxui::bold | ftxui::color(ftxui::Color::Cyan),
+        ftxui::text("GitHub/GitLab username: schak04") | ftxui::center | ftxui::dim,
+        ftxui::filler(),
+        ftxui::separator(),
+        ftxui::hbox({
+            keyHint("Esc/?", "Return to Dashboard")
+        }) | ftxui::center
+    }) | ftxui::borderRounded;
+}
+
 ftxui::Element makeTUI() {
     if (currentState == ScreenState::DASHBOARD) {
         return drawDashboard();
@@ -437,6 +462,8 @@ ftxui::Element makeTUI() {
         return drawConfirmClearAll();
     } else if (currentState == ScreenState::CALENDAR_PICKER) {
         return drawCalendarPicker();
+    } else if (currentState == ScreenState::ABOUT) {
+        return drawAboutScreen();
     }
     return ftxui::text("How'd you even get here?") | ftxui::center;
 }
@@ -499,6 +526,16 @@ bool handleEvent(ftxui::Event event) {
             TaskManager manager;
             manager.toggleCompletionStatus(t);
             refreshTasks();
+            return true;
+        }
+        if (event == ftxui::Event::Character('?')) {
+            currentState = ScreenState::ABOUT;
+            return true;
+        }
+    }
+    else if (currentState == ScreenState::ABOUT) {
+        if (event == ftxui::Event::Escape || event == ftxui::Event::Character('q') || event == ftxui::Event::Character('?')) {
+            currentState = ScreenState::DASHBOARD;
             return true;
         }
     }
