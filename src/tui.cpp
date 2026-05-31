@@ -245,7 +245,7 @@ ftxui::Element drawDashboard() {
                 ftxui::text("  ") | ftxui::color(priorityColor) | ftxui::bgcolor(priorityColor), // priority colour tag
                 ftxui::paragraph(" " + task.taskName) | ftxui::bold | ftxui::flex,
                 ftxui::filler(),
-                ftxui::text(task.date + " ") | ftxui::dim,
+                ftxui::text(task.date + " ") | ftxui::color(COL_CYAN),
                 ftxui::text(task.completed ? "[DONE]" : "[TODO]") 
                     | ftxui::color(task.completed ? COL_GREEN : COL_YELLOW)
             });
