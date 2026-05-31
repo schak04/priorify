@@ -32,6 +32,7 @@ Through this project, I intend to improve the way I track my tasks, solving a pe
 - **Visual Feedback:** Colour-coded priority bars and active-state highlights.
 - **Persistent Storage:** SQLite database safely stores all task data.
 - **Performance Optimised:** In-memory caching minimises database polling.
+- **About Screen:** Press `?` on the dashboard to see what the app is about.
 
 ---
 
@@ -125,10 +126,13 @@ chmod +x scripts/uninstall.sh
 - `h`/`l` or `Left`/`Right`: Cycle through radio options or should I say... pills (Status/Priority)
 - `Enter`: Save / Confirm
 - `q`/`Esc`: Quit the app when in the dashboard
+- `?`: Open the About screen
+- `Spacebar` (when on the Due Date field in the **add/edit-task** screens): Open the calendar picker
 - `Esc`: Return to the dashboard when inside the **add/edit-task screens** or **delete/clear-all confirmation screens**
 
 > [!NOTE]  
-> The app is not available for Windows yet.
+> The app is not available for Windows yet.  
+> However, Windows users can use [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl) to run the app.
 
 ---
 
