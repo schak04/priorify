@@ -10,6 +10,19 @@
 #include "tui.h"
 
 /*
+---------- Custom Colours ----------
+(to ensure terminal emulators using some theme
+still render the original colours of the app)
+*/
+
+const auto COL_CYAN    = ftxui::Color::RGB(86, 210, 227);
+const auto COL_YELLOW  = ftxui::Color::RGB(250, 189, 47);
+const auto COL_RED     = ftxui::Color::RGB(234, 74, 74);
+const auto COL_GREEN   = ftxui::Color::RGB(100, 200, 100);
+const auto COL_GRAY    = ftxui::Color::RGB(100, 100, 100);
+const auto COL_BLACK   = ftxui::Color::RGB(30, 30, 30);
+
+/*
 ---------- Global State ----------
 */
 
@@ -95,7 +108,7 @@ Field& operator--(Field& field) {
 
 ftxui::Element keyHint(const std::string& key, const std::string& purpose) {
     return ftxui::hbox({
-        ftxui::text(" " + key + ": ") | ftxui::bold | ftxui::color(ftxui::Color::Yellow),
+        ftxui::text(" " + key + ": ") | ftxui::bold | ftxui::color(COL_YELLOW),
         ftxui::text(purpose + "  ") | ftxui::dim
     });
 }
@@ -210,8 +223,8 @@ int getStartingWeekday(int year, unsigned month) { // 0 for Sunday, 1 for Monday
 
 ftxui::Element drawLogo() {
     return ftxui::vbox({
-        ftxui::text("█▀█ █▀█ █ █▀█ █▀█ █ █▀▀ █▄█") | ftxui::center | ftxui::color(ftxui::Color::Cyan),
-        ftxui::text("█▀▀ █▀▄ █ █▄█ █▀▄ █ █▀   █ ") | ftxui::center | ftxui::color(ftxui::Color::Yellow)
+        ftxui::text("█▀█ █▀█ █ █▀█ █▀█ █ █▀▀ █▄█") | ftxui::center | ftxui::color(COL_CYAN),
+        ftxui::text("█▀▀ █▀▄ █ █▄█ █▀▄ █ █▀   █ ") | ftxui::center | ftxui::color(COL_YELLOW)
     }) | ftxui::bold;
 }
 
@@ -223,10 +236,10 @@ ftxui::Element drawDashboard() {
     } else {
         for (int i = 0; i < cachedTasks.size(); i++) {
             const auto& task = cachedTasks[i];
-            ftxui::Color priorityColor = ftxui::Color::GrayDark; // priority 0
-            if (task.priority == 1) priorityColor = ftxui::Color::Red;
-            else if (task.priority == 2) priorityColor = ftxui::Color::Yellow;
-            else if (task.priority == 3) priorityColor = ftxui::Color::Green;
+            ftxui::Color priorityColor = COL_GRAY; // priority 0
+            if (task.priority == 1) priorityColor = COL_RED;
+            else if (task.priority == 2) priorityColor = COL_YELLOW;
+            else if (task.priority == 3) priorityColor = COL_GREEN;
 
             auto element = ftxui::hbox({
                 ftxui::text("  ") | ftxui::color(priorityColor) | ftxui::bgcolor(priorityColor), // priority colour tag
@@ -234,7 +247,7 @@ ftxui::Element drawDashboard() {
                 ftxui::filler(),
                 ftxui::text(task.date + " ") | ftxui::dim,
                 ftxui::text(task.completed ? "[DONE]" : "[TODO]") 
-                    | ftxui::color(task.completed ? ftxui::Color::Green : ftxui::Color::Yellow)
+                    | ftxui::color(task.completed ? COL_GREEN : COL_YELLOW)
             });
 
             if (selectedTaskIndex == i) {
@@ -259,7 +272,7 @@ ftxui::Element drawDashboard() {
             keyHint("q/Esc", "Quit"),
             ftxui::filler(),
             keyHint("?", "About"),
-            ftxui::text("v2.0.0 ") | ftxui::color(ftxui::Color::Cyan) | ftxui::bold
+            ftxui::text("v2.0.0 ") | ftxui::color(COL_CYAN) | ftxui::bold
         })
     }) | ftxui::borderRounded;
 }
@@ -269,8 +282,8 @@ ftxui::Element drawTaskDetailsForm(const std::string& formTitle) {
     auto focusOnField = [&](Field field, const std::string& label, const std::string& buffer) {
         if (activeField == field) {
             return ftxui::hbox({
-                ftxui::text(" > " + label + ": ") | ftxui::color(ftxui::Color::Cyan) | ftxui::bold,
-                ftxui::text(buffer) | ftxui::color(ftxui::Color::Yellow) | ftxui::inverted,
+                ftxui::text(" > " + label + ": ") | ftxui::color(COL_CYAN) | ftxui::bold,
+                ftxui::text(buffer) | ftxui::color(COL_YELLOW) | ftxui::inverted,
                 ftxui::text(" ")
             }) | ftxui::borderRounded;
         } else {
@@ -284,20 +297,20 @@ ftxui::Element drawTaskDetailsForm(const std::string& formTitle) {
     auto drawPills = [&](Field field, const std::string& label, const std::vector<std::string>& options, int selectedIndex) {
         ftxui::Elements pills;
         pills.push_back(ftxui::text(activeField == field ? " > " + label + ": " : "   " + label + ": ") 
-                        | (activeField == field ? ftxui::color(ftxui::Color::Cyan) | ftxui::bold : ftxui::nothing));
+                        | (activeField == field ? ftxui::color(COL_CYAN) | ftxui::bold : ftxui::nothing));
         for (int i=0; i<options.size(); i++) {
             ftxui::Element optionText = ftxui::text("  " + options[i] + "  ");
             if (i == selectedIndex) {
                 if (field == Field::Priority) {
-                    if (i == 0) optionText |= ftxui::bgcolor(ftxui::Color::Red);
-                    else if (i == 1) optionText |= ftxui::bgcolor(ftxui::Color::Yellow);
-                    else if (i == 2) optionText |= ftxui::bgcolor(ftxui::Color::Green);
-                    else optionText |= ftxui::bgcolor(ftxui::Color::GrayDark);
+                    if (i == 0) optionText |= ftxui::bgcolor(COL_RED);
+                    else if (i == 1) optionText |= ftxui::bgcolor(COL_YELLOW);
+                    else if (i == 2) optionText |= ftxui::bgcolor(COL_GREEN);
+                    else optionText |= ftxui::bgcolor(COL_GRAY);
                 } else if (field == Field::Status) {
-                    if (i == 0) optionText |= ftxui::bgcolor(ftxui::Color::Yellow);
-                    else optionText |= ftxui::bgcolor(ftxui::Color::Green);
+                    if (i == 0) optionText |= ftxui::bgcolor(COL_YELLOW);
+                    else optionText |= ftxui::bgcolor(COL_GREEN);
                 }
-                optionText |= ftxui::color(ftxui::Color::Black) | ftxui::bold;
+                optionText |= ftxui::color(COL_BLACK) | ftxui::bold;
             } else {
                 optionText |= ftxui::dim;
             }
@@ -334,11 +347,11 @@ ftxui::Element drawTaskDetailsForm(const std::string& formTitle) {
 
 ftxui::Element drawConfirmDelete() {
     return ftxui::vbox({
-        ftxui::text(" ! WARNING ! ") | ftxui::bold | ftxui::center | ftxui::color(ftxui::Color::Red),
+        ftxui::text(" ! WARNING ! ") | ftxui::bold | ftxui::center | ftxui::color(COL_RED),
         ftxui::separator(),
         ftxui::filler(),
         ftxui::text("Are you sure you want to delete this task?") | ftxui::center,
-        ftxui::text("\"" + cachedTasks[selectedTaskIndex].taskName + "\"") | ftxui::bold | ftxui::center | ftxui::color(ftxui::Color::Yellow),
+        ftxui::text("\"" + cachedTasks[selectedTaskIndex].taskName + "\"") | ftxui::bold | ftxui::center | ftxui::color(COL_YELLOW),
         ftxui::filler(),
         ftxui::separator(),
         ftxui::hbox({
@@ -350,11 +363,11 @@ ftxui::Element drawConfirmDelete() {
 
 ftxui::Element drawConfirmClearAll() {
     return ftxui::vbox({
-        ftxui::text(" !!! DANGER ZONE !!! ") | ftxui::bold | ftxui::center | ftxui::color(ftxui::Color::Red),
+        ftxui::text(" !!! DANGER ZONE !!! ") | ftxui::bold | ftxui::center | ftxui::color(COL_RED),
         ftxui::separator(),
         ftxui::filler(),
         ftxui::text("This will permanently REMOVE ALL TASKS.") | ftxui::center,
-        ftxui::text("This action CANNOT be undone.") | ftxui::center | ftxui::color(ftxui::Color::Red),
+        ftxui::text("This action CANNOT be undone.") | ftxui::center | ftxui::color(COL_RED),
         ftxui::filler(),
         ftxui::separator(),
         ftxui::hbox({
@@ -372,7 +385,7 @@ ftxui::Element drawCalendarPicker() {
 
     std::vector<ftxui::Elements> calRows;
 
-    auto headerCell = [](const char* t) {return ftxui::text(t) | ftxui::bold | ftxui::color(ftxui::Color::Yellow) | ftxui::center | ftxui::size(ftxui::WIDTH, ftxui::EQUAL, 6);};
+    auto headerCell = [](const char* t) {return ftxui::text(t) | ftxui::bold | ftxui::color(COL_YELLOW) | ftxui::center | ftxui::size(ftxui::WIDTH, ftxui::EQUAL, 6);};
     calRows.push_back({headerCell("Su"), headerCell("Mo"), headerCell("Tu"), headerCell("We"), headerCell("Th"), headerCell("Fr"), headerCell("Sa")});    
 
     ftxui::Elements currentRow;
@@ -416,7 +429,7 @@ ftxui::Element drawCalendarPicker() {
     });
 
     return ftxui::vbox({
-        ftxui::text(monthNameAndYear) | ftxui::bold | ftxui::center | ftxui::color(ftxui::Color::Cyan),
+        ftxui::text(monthNameAndYear) | ftxui::bold | ftxui::center | ftxui::color(COL_CYAN),
         ftxui::separator(),
         ftxui::filler(),
         calendar,
@@ -434,12 +447,12 @@ ftxui::Element drawAboutScreen() {
         ftxui::text("A minimalist, terminal-based task manager made for absolute focus.") | ftxui::center | ftxui::bold,
         ftxui::text("This project is intended to help users manage and prioritise their tasks with zero distractions.") | ftxui::center,
         ftxui::text(""),
-        ftxui::text("Built by a programmer, for programmers (and non-programmers too, won't gatekeep).") | ftxui::center | ftxui::color(ftxui::Color::Yellow),
+        ftxui::text("Built by a programmer, for programmers (and non-programmers too, won't gatekeep).") | ftxui::center | ftxui::color(COL_YELLOW),
         ftxui::text("I created this to make my own task-tracking easier because I'm mostly on my puter") | ftxui::center,
         ftxui::text("(in the terminal) and really enjoy TUI apps (and C++).") | ftxui::center,
         ftxui::text("I hope it helps other programmers (and non-programmers) who enjoy TUI apps too.") | ftxui::center,
         ftxui::text(""),
-        ftxui::text("~ Saptaparno Chakraborty") | ftxui::center | ftxui::bold | ftxui::color(ftxui::Color::Cyan),
+        ftxui::text("~ Saptaparno Chakraborty") | ftxui::center | ftxui::bold | ftxui::color(COL_CYAN),
         ftxui::text("GitHub/GitLab username: schak04") | ftxui::center | ftxui::dim,
         ftxui::filler(),
         ftxui::separator(),
