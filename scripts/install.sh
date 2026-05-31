@@ -27,6 +27,6 @@ EOF
 
 chmod +x "$BIN_DIR/priorify"
 
-echo "Aaaand we're done"
+echo "Aaaand we're done."
 echo "You can now type 'priorify' from anywhere in your terminal to use it."
 echo "(Assuming $BIN_DIR is in your PATH. If it isn't, well, go fix your dotfiles. Refer to the README of this project if you need help with that.)"
