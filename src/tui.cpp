@@ -207,6 +207,13 @@ int getStartingWeekday(int year, unsigned month) { // 0 for Sunday, 1 for Monday
 ---------- TUI Rendering ----------
 */
 
+ftxui::Element drawLogo() {
+    return ftxui::vbox({
+        ftxui::text("█▀█ █▀█ █ █▀█ █▀█ █ █▀▀ █▄█") | ftxui::center | ftxui::color(ftxui::Color::Cyan),
+        ftxui::text("█▀▀ █▀▄ █ █▄█ █▀▄ █ █▀   █ ") | ftxui::center | ftxui::color(ftxui::Color::Yellow)
+    }) | ftxui::bold;
+}
+
 ftxui::Element drawDashboard() {
     ftxui::Elements taskElements;
 
@@ -233,12 +240,12 @@ ftxui::Element drawDashboard() {
                 element = element | ftxui::focus | ftxui::inverted;
             }
 
-            taskElements.push_back(element | ftxui::border);
+            taskElements.push_back(element | ftxui::borderRounded);
         }
     }
 
     return ftxui::vbox({
-        ftxui::text("PRIORIFY") | ftxui::bold | ftxui::center, // TODO: gotta make this ASCII-art-ish later
+        drawLogo(),
         ftxui::separator(),
         ftxui::vbox(std::move(taskElements)) | ftxui::vscroll_indicator | ftxui::frame | ftxui::flex,
         ftxui::separator(),
@@ -252,7 +259,7 @@ ftxui::Element drawDashboard() {
             ftxui::filler(),
             ftxui::text("v2.0.0 ") | ftxui::dim,
         })
-    }) | ftxui::border;
+    }) | ftxui::borderRounded;
 }
 
 // to draw task creation + editing forms
@@ -263,13 +270,13 @@ ftxui::Element drawTaskDetailsForm(const std::string& formTitle) {
                 ftxui::text(" > " + label + ": ") | ftxui::color(ftxui::Color::Cyan) | ftxui::bold,
                 ftxui::text(buffer) | ftxui::color(ftxui::Color::Yellow) | ftxui::inverted,
                 ftxui::text(" ")
-            }) | ftxui::border;
+            }) | ftxui::borderRounded;
         } else {
             return ftxui::hbox({
                 ftxui::text("   " + label + ": "),
                 ftxui::text(buffer),
                 ftxui::text(" ")
-            }) | ftxui::border;
+            }) | ftxui::borderRounded;
         }
     };
     auto drawPills = [&](Field field, const std::string& label, const std::vector<std::string>& options, int selectedIndex) {
@@ -295,7 +302,7 @@ ftxui::Element drawTaskDetailsForm(const std::string& formTitle) {
             pills.push_back(optionText);
             pills.push_back(ftxui::text(" "));
         }
-        return ftxui::hbox(std::move(pills)) | ftxui::border;
+        return ftxui::hbox(std::move(pills)) | ftxui::borderRounded;
     };
 
     return ftxui::vbox({
@@ -320,7 +327,7 @@ ftxui::Element drawTaskDetailsForm(const std::string& formTitle) {
                 keyHint("Esc", "Cancel")
             }) | ftxui::center
         })
-    }) | ftxui::border;
+    }) | ftxui::borderRounded;
 }
 
 ftxui::Element drawConfirmDelete() {
@@ -336,7 +343,7 @@ ftxui::Element drawConfirmDelete() {
             keyHint("y/Enter", "Yes, delete it"),
             keyHint("n/Esc", "No, cancel")
         }) | ftxui::center,
-    }) | ftxui::border | ftxui::center;
+    }) | ftxui::borderRounded | ftxui::center;
 }
 
 ftxui::Element drawConfirmClearAll() {
@@ -352,7 +359,7 @@ ftxui::Element drawConfirmClearAll() {
             keyHint("y", "Yes, NUKE"),
             keyHint("n/Esc", "No, abort")
         }) | ftxui::center,
-    }) | ftxui::border | ftxui::center;
+    }) | ftxui::borderRounded | ftxui::center;
 }
 
 ftxui::Element drawCalendarPicker() {
@@ -414,7 +421,7 @@ ftxui::Element drawCalendarPicker() {
         ftxui::filler(),
         ftxui::separator(),
         hints
-    }) | ftxui::border | ftxui::center;
+    }) | ftxui::borderRounded | ftxui::center;
 }
 
 ftxui::Element makeTUI() {
