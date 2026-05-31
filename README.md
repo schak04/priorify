@@ -59,18 +59,60 @@ git clone https://github.com/schak04/priorify.git
 cd priorify
 ```
 
-#### 2. Build the Project
+#### 2. Install (Recommended)
+
+Run the install script:
+
+```bash
+chmod +x scripts/install.sh
+./scripts/install.sh
+```
+
+Once done, you can launch the app from anywhere in your terminal:
+
+```bash
+priorify
+```
+
+*(**Note:** Ensure `~/.local/bin` is in your system's PATH)*
+
+<details>
+<summary><b>Click here if you need help with it</b></summary>
+
+To add `~/.local/bin` to your PATH, open your shell config file (like `~/.bashrc` or `~/.zshrc`) and add this line at the bottom:
+
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+Then, reload your shell (or just restart your terminal):
+```bash
+source ~/.bashrc  # or ~/.zshrc
+```
+</details>
+
+#### Alternative: Build & Run Locally
+
+If you prefer not to install it globally, you can build and run it manually:
 
 ```bash
 chmod +x scripts/build.sh
 ./scripts/build.sh
 ```
 
-#### 3. Run the App
-Always run the executable from the project root to ensure the database path (`data/tasks.db`) resolves correctly.
+Always run the executable from the project root to ensure the database path (`data/tasks.db`) resolves correctly:
 
 ```bash
 ./bin/priorify
+```
+
+#### Uninstall
+
+If you ever wish to remove this app from your system, you can run the uninstall script from the cloned repository. It will safely remove the app (and also ask if you want to keep or delete your tasks database):
+
+```bash
+chmod +x scripts/uninstall.sh
+./scripts/uninstall.sh
 ```
 
 ### Keybindings Guide
