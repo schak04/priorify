@@ -15,11 +15,6 @@ mkdir -p "$BIN_DIR"
 
 cp bin/priorify "$INSTALL_DIR/bin/"
 
-if [ -f "data/tasks.db" ]; then
-    echo "Oh hey, you already have some tasks. Carrying them over."
-    cp data/tasks.db "$INSTALL_DIR/data/"
-fi
-
 cat << EOF > "$BIN_DIR/priorify"
 #!/bin/bash
 cd "$INSTALL_DIR" && ./bin/priorify "\$@"
