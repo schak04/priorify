@@ -1,9 +1,12 @@
 #include "db.h"
 #include <iostream>
+#include <filesystem>
 
 sqlite3* db = nullptr;
 
 bool initDB() {
+    std::filesystem::create_directories("data");
+
     int rc = sqlite3_open("data/tasks.db", &db);
     if (rc) {
         std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;
