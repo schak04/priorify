@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 INSTALL_DIR="$HOME/.local/share/priorify"
 BIN_FILE="$HOME/.local/bin/priorify"
 
