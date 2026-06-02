@@ -163,6 +163,7 @@ chmod +x scripts/uninstall.sh
 
 ### More
 - [**StackOverflow** - **difference between include guards and #pragma once**](https://stackoverflow.com/questions/22193338/what-is-the-difference-between-ifndef-and-pragma-once-and-what-does-the-same)
+- [**Choosing between $0 and BASH_SOURCE**](https://stackoverflow.com/questions/35006457/choosing-between-0-and-bash-source)
 
 ---
 
