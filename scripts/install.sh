@@ -1,8 +1,11 @@
 #!/bin/bash
 set -e
 
-chmod +x scripts/build.sh
-./scripts/build.sh
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(dirname "$SCRIPT_DIR")"
+
+chmod +x "$SCRIPT_DIR/build.sh"
+"$SCRIPT_DIR/build.sh"
 
 echo ""
 echo "Installing and moving stuff around so your puter can find 'em..."
@@ -13,7 +16,7 @@ mkdir -p "$INSTALL_DIR/bin"
 mkdir -p "$INSTALL_DIR/data"
 mkdir -p "$BIN_DIR"
 
-cp bin/priorify "$INSTALL_DIR/bin/"
+cp "$ROOT_DIR/bin/priorify" "$INSTALL_DIR/bin/"
 
 cat << EOF > "$BIN_DIR/priorify"
 #!/bin/bash
