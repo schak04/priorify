@@ -593,7 +593,7 @@ bool handleEvent(ftxui::Event event) {
             ++activeField;
             return true;
         }
-        if (event == ftxui::Event::ArrowUp) {
+        if (event == ftxui::Event::TabReverse || event == ftxui::Event::ArrowUp) {
             --activeField;
             return true;
         }
@@ -622,7 +622,7 @@ bool handleEvent(ftxui::Event event) {
             ++activeField;
             return true;
         }
-        if (event == ftxui::Event::ArrowUp) {
+        if (event == ftxui::Event::TabReverse || event == ftxui::Event::ArrowUp) {
             --activeField;
             return true;
         }
