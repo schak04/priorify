@@ -53,10 +53,10 @@ Through this project, I intend to improve the way I track my tasks, solving a pe
 - CMake
 - A C++ compiler supporting C++20 or higher
 
-### On Linux
+### On Linux, macOS, and other Unix-like Systems
 
-> This app is Linux-native, and developed and tested on Arch Linux.  
-> macOS compatibility is intended but yet to be verified due to lack of access to a macOS environment.  
+> This application is Linux-native, and developed and tested on Arch Linux.  
+> The application is expected to work on other Unix-like systems, including macOS. However, the installation script's compatibility with macOS and other Unix-like systems has not yet been verified due to a lack of access to those environments.  
 
 #### 1. Clone the Repository
 ```bash
