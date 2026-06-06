@@ -56,9 +56,7 @@ Through this project, I intend to improve the way I track my tasks, solving a pe
 ### On Linux, macOS, and other Unix-like Systems
 
 > This application is Linux-native and developed and tested on Arch Linux.  
-> The application is expected to work on other Unix-like systems, including macOS.  
-> However, the installation script's compatibility with macOS and other Unix-like systems  
-> has not yet been verified due to a lack of access to those environments.  
+> It is expected to work on other Unix-like systems too, including macOS (tested).  
 
 #### 1. Clone the Repository
 ```bash
