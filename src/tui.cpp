@@ -154,20 +154,18 @@ bool handleTypingAndSelection(ftxui::Event& event) {
         return false;
     }
 
-    std::string* currentBuffer = nullptr;
-    if (activeField == Field::Name) currentBuffer = &taskNameBuffer;
-    else if (activeField == Field::Description) currentBuffer = &taskDescBuffer;
-    else if (activeField == Field::DueDate) currentBuffer = &dateBuffer;
+    std::string& currentBuffer =
+        (activeField == Field::Name) ? taskNameBuffer :
+        (activeField == Field::Description) ? taskDescBuffer :
+        dateBuffer;
 
-    if (currentBuffer) {
-        if (event == ftxui::Event::Backspace) {
-            if (!currentBuffer->empty()) currentBuffer->pop_back();
-            return true;
-        }
-        if (event.is_character()) {
-            *currentBuffer += event.character();
-            return true;
-        }
+    if (event == ftxui::Event::Backspace) {
+        if (!currentBuffer.empty()) currentBuffer.pop_back();
+        return true;
+    }
+    if (event.is_character()) {
+        currentBuffer += event.character();
+        return true;
     }
 
     return false;
