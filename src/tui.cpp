@@ -239,11 +239,12 @@ ftxui::Element drawDashboard() {
             else if (task.priority == 2) priorityColor = COL_YELLOW;
             else if (task.priority == 3) priorityColor = COL_GREEN;
 
+            std::string taskNameDescDisplay = (task.taskDesc != "") ? (" "+task.taskName+" ("+task.taskDesc+")") : (" " + task.taskName);
             auto element = ftxui::hbox({
                 ftxui::text("  ") | ftxui::color(priorityColor) | ftxui::bgcolor(priorityColor), // priority colour tag
-                ftxui::paragraph(" " + task.taskName) | ftxui::bold | ftxui::flex,
+                ftxui::paragraph(taskNameDescDisplay) | ftxui::bold | ftxui::flex,
                 ftxui::filler(),
-                ftxui::text(task.date + " ") | ftxui::color(COL_CYAN),
+                ftxui::text(" " + task.date + " ") | ftxui::color(COL_CYAN),
                 ftxui::text(task.completed ? "[DONE]" : "[TODO]") 
                     | ftxui::color(task.completed ? COL_GREEN : COL_YELLOW)
             });
