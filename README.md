@@ -35,20 +35,6 @@ Through this project, I intend to improve the way I track my tasks, solving a pe
 - **Performance Optimised:** In-memory caching minimises database polling.
 - **About Screen:** Press `?` on the dashboard to see what the app is about.
 
----
-
-## Technologies Used
-
-- **Language:** C++
-- **Database:** SQLite3
-- **TUI Framework:** [FTXUI](https://github.com/ArthurSonzogni/ftxui)
-- **Build System:** CMake
-- **Build Automation:** Bash Scripting
-
----
-
-## Screenshots
-
 <details>
 <summary><b>Click here to view screenshots (v2.0.0)</b></summary>
 
@@ -61,6 +47,16 @@ Through this project, I intend to improve the way I track my tasks, solving a pe
 ![img7](./images/7.png)
 
 </details>
+
+---
+
+## Technologies Used
+
+- **Language:** C++
+- **Database:** SQLite3
+- **TUI Framework:** [FTXUI](https://github.com/ArthurSonzogni/ftxui)
+- **Build System:** CMake
+- **Build Automation:** Bash Scripting
 
 ---
 
