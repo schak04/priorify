@@ -49,13 +49,13 @@ Through this project, I intend to improve the way I track my tasks, solving a pe
 
 ## Screenshots
 
-- ![img1](./images/1.png)
-- ![img1](./images/2.png)
-- ![img1](./images/3.png)
-- ![img1](./images/4.png)
-- ![img1](./images/5.png)
-- ![img1](./images/6.png)
-- ![img1](./images/7.png)
+![img1](./images/1.png)
+![img2](./images/2.png)
+![img3](./images/3.png)
+![img4](./images/4.png)
+![img5](./images/5.png)
+![img6](./images/6.png)
+![img7](./images/7.png)
 
 ---
 
