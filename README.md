@@ -9,6 +9,19 @@
 Priorify is a priority-based task manager built in C++, focused on performance, simplicity, and productivity.  
 What started as a basic console app has evolved into a modern, keyboard-driven **Terminal User Interface (TUI)** tailored for terminal-heavy workflows.
 
+<details>
+<summary><b>Click here to view screenshots (v2.0.0)</b></summary>
+
+![img1](./images/1.png)
+![img4](./images/4.png)
+![img3](./images/3.png)
+![img2](./images/2.png)
+![img5](./images/5.png)
+![img6](./images/6.png)
+![img7](./images/7.png)
+
+</details>
+
 ---
 
 ## Vision
@@ -34,19 +47,6 @@ Through this project, I intend to improve the way I track my tasks, solving a pe
 - **Persistent Storage:** SQLite database safely stores all task data.
 - **Performance Optimised:** In-memory caching minimises database polling.
 - **About Screen:** Press `?` on the dashboard to see what the app is about.
-
-<details>
-<summary><b>Click here to view screenshots (v2.0.0)</b></summary>
-
-![img1](./images/1.png)
-![img4](./images/4.png)
-![img3](./images/3.png)
-![img2](./images/2.png)
-![img5](./images/5.png)
-![img6](./images/6.png)
-![img7](./images/7.png)
-
-</details>
 
 ---
 
