@@ -24,7 +24,7 @@ What started as a basic console app has evolved into a modern, keyboard-driven *
 
 > [!IMPORTANT]  
 > **Project Status: v2.0.0 Released; Active Development and Maintenance Phase**  
-> Priorify is a personal learning, recreational and portfolio project developed independently by [me](#author).  
+> Priorify is a personal learning, recreational, and portfolio project developed independently by [me](#author).  
 > The application is fully functional and actively used, and will continue to receive new features, improvements, and bug fixes over time.  
 > Feedback and discussions are always welcome, but the repository is not intended for external contributions.
 
