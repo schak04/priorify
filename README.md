@@ -9,6 +9,8 @@
 Priorify is a priority-based task manager built in C++, focused on performance, simplicity, and productivity.  
 What started as a basic console app has evolved into a modern, keyboard-driven **Terminal User Interface (TUI)** tailored for terminal-heavy workflows.
 
+![about](./images/7.png)
+
 <details>
 <summary><b>Click here to view screenshots (v2.0.0)</b></summary>
 
@@ -18,7 +20,6 @@ What started as a basic console app has evolved into a modern, keyboard-driven *
 ![img2](./images/2.png)
 ![img5](./images/5.png)
 ![img6](./images/6.png)
-![img7](./images/7.png)
 
 </details>
 
