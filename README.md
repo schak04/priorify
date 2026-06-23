@@ -12,7 +12,7 @@ What started as a basic console app has evolved into a modern, keyboard-driven *
 ![about](./images/7.png)
 
 <details>
-<summary><b>Toggle more preview screenshots (v2.0.0)</b></summary>
+<summary><b>View more screenshots (v2.0.0)</b></summary>
 
 ![img1](./images/1.png)
 ![img4](./images/4.png)
