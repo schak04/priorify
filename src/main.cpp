@@ -1,6 +1,6 @@
-#include "db.h"
-#include "tui.h"
-// #include "ui.h"
+#include "../headers/db.h"
+#include "../headers/tui.h"
+// #include "../headers/ui.h"
 #include <iostream>
 
 int main() {

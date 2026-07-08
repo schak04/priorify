@@ -1,8 +1,8 @@
-#include "ui.h"
 #include <iostream>
 #include <string>
-#include "task.h"
-#include "db.h"
+#include "../headers/ui.h"
+#include "../headers/task.h"
+#include "../headers/db.h"
 
 void UI::printWelcomePage() {
     std::cout << "=================================================================\n";

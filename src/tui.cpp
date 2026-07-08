@@ -5,9 +5,9 @@
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/screen_interactive.hpp>
 #include <ftxui/dom/elements.hpp>
-#include "task.h"
-#include "task_manager.h"
-#include "tui.h"
+#include "../headers/task.h"
+#include "../headers/task_manager.h"
+#include "../headers/tui.h"
 
 /*
 ---------- Custom Colours ----------
