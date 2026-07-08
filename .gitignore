@@ -1,15 +1,6 @@
-# IDEs and build artifacts
-.vscode/
-*.o
-*.a
-*.exe
 build/
 bin/
-
-# SQLite database
-data/tasks.db
-
-# Installer, app bundle, and icons
-installer
-app_bundle
-icons
+data/
+installer/
+app_bundle/
+icons/
