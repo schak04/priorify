@@ -39,15 +39,20 @@ math.o: math.cpp math.h
 	g++ -c math.cpp
 ```
 
+> [!NOTE]  
+> A .o file is a compiled object file that contains unlinked machine code meant for a linker. An extensionless binary file is typically a finalised, fully-linked executable (or another custom binary format) that the operating system can run directly as a program.  
+> `g++ main.cpp math.cpp -o app` is a full-build command that requires recompilation of unchanged files along with changed/updated source code files. On the other hand, `g++ main.o math.o -o app` is a link-only command that just links machine code files together to form a final executable, and for that, we make these `.o`-extensioned object binary files using `g++ -c ...` so that we only recompile the source code files that have been changed.
+
 Now I can simply run:
 
 ```bash
 make
 ```
 
-It checks what changed and what needs recompilation, and rebuilds efficiently.  
+It checks what changed and what needs recompilation, and rebuilds efficiently.
 
 For example:
+
 - if only `math.cpp` changes, only `math.o` is rebuilt,
 - then the executable is relinked,
 - `main.cpp` is not recompiled unnecessarily.
@@ -58,6 +63,7 @@ Although it solves one problem, it introduces another.
 
 **What is it?**  
 Well, writing Makefiles manually becomes painful for:
+
 - large projects
 - cross-platform support
 - libraries
