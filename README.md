@@ -59,7 +59,7 @@ Through this project, I intend to improve the way I track my tasks, solving a pe
 > [!NOTE]  
 > v2.1.0 in progress.
 >
-> FEATURES IMPLEMENTED (to be shipped together as v2.1.0):
+> Features Implemented (to be shipped together under v2.1.0):
 >
 > - Task repositioning within tasks of the same priority
 
