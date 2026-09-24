@@ -34,6 +34,7 @@ What started as a basic console app has evolved into a modern, keyboard-driven *
 ## Vision
 
 This project is designed to be:
+
 - **Fast:** Minimal overhead with in-memory caching and instant operations.
 - **Keyboard-First:** No mouse needed, fully optimised for Vim-style (h/j/k/l) and standard navigation.
 - **Focused:** Prioritisation over clutter.
@@ -55,6 +56,13 @@ Through this project, I intend to improve the way I track my tasks, solving a pe
 - **Performance Optimised:** In-memory caching minimises database polling.
 - **About Screen:** Press `?` on the dashboard to see what the app is about.
 
+> [!NOTE]  
+> v2.1.0 in progress.
+>
+> FEATURES IMPLEMENTED (to be shipped together as v2.1.0):
+>
+> - Task repositioning within tasks of the same priority
+
 ---
 
 ## Technologies Used
@@ -70,15 +78,17 @@ Through this project, I intend to improve the way I track my tasks, solving a pe
 ## Usage Instructions
 
 ### Prerequisites
+
 - CMake
 - A C++ compiler supporting C++20 or higher
 
 ### On Linux, macOS, and other Unix-like Systems
 
 > This application is Linux-native and developed and tested on Arch Linux.  
-> It is expected to work on other Unix-like systems too, including macOS (tested).  
+> It is expected to work on other Unix-like systems too, including macOS (tested).
 
 #### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/schak04/priorify.git
 cd priorify
@@ -99,7 +109,7 @@ Once done, you can launch the app from anywhere in your terminal:
 priorify
 ```
 
-*(**Note:** Ensure `~/.local/bin` is in your system's PATH)*
+_(**Note:** Ensure `~/.local/bin` is in your system's PATH)_
 
 <details>
 <summary><b>Click here if you need help with it</b></summary>
@@ -111,9 +121,11 @@ export PATH="$HOME/.local/bin:$PATH"
 ```
 
 Then, reload your shell (or just restart your terminal):
+
 ```bash
 source ~/.bashrc  # or ~/.zshrc
 ```
+
 </details>
 
 #### Alternative: Build & Run Locally
@@ -141,6 +153,7 @@ chmod +x scripts/uninstall.sh
 ```
 
 ### Keybindings Guide
+
 - `a`: Add a new task
 - `e`: Edit selected task
 - `d`: Delete selected task (requires confirmation)
@@ -163,21 +176,24 @@ chmod +x scripts/uninstall.sh
 ## System Design
 
 ### High-Level Design
+
 - **System Architecture:**  
-![System Architecture](docs/diagrams/architecture.png)
+  ![System Architecture](docs/diagrams/architecture.png)
 
 - **UML Use Case Diagram:**  
-![UML Use Case Diagram](docs/diagrams/use-case.png)
+  ![UML Use Case Diagram](docs/diagrams/use-case.png)
 
 ### Low-Level Design
+
 - **Sequence Diagram:**  
-![Sequence Diagram](docs/diagrams/sequence-diagram.png)
+  ![Sequence Diagram](docs/diagrams/sequence-diagram.png)
 
 ---
 
 ## References
 
 ### Main
+
 - **C++:** [**cppreference**](https://en.cppreference.com/cpp/language)
 - **SQLite:** [**documentation**](https://sqlite.org/docs.html)
 - **FTXUI:** [**documentation**](https://arthursonzogni.github.io/FTXUI)
@@ -185,6 +201,7 @@ chmod +x scripts/uninstall.sh
 - **Chrono:** [**GfG**](https://www.geeksforgeeks.org/cpp/chrono-in-c) and [**cppreference**](https://en.cppreference.com/cpp/chrono)
 
 ### More
+
 - [**StackOverflow** - **difference between include guards and #pragma once**](https://stackoverflow.com/questions/22193338/what-is-the-difference-between-ifndef-and-pragma-once-and-what-does-the-same)
 - [**Choosing between $0 and BASH_SOURCE**](https://stackoverflow.com/questions/35006457/choosing-between-0-and-bash-source)
 
@@ -192,8 +209,9 @@ chmod +x scripts/uninstall.sh
 
 ## ASCII Art
 
-> I tried using different sites (such as: https://patorjk.com/software/taag, https://coddy.tech/tools/ascii-art-generator, etc.) to create ASCII art from typed text, but they were all too gigantic, and even when small, they didn't match the image I had in mind. The sites are great though, no complaints. I just wanted the logo to fit within 2 lines, so I used Unicode block elements to manually create the ASCII art myself for the app's name (visible on the dashboard). 
+> I tried using different sites (such as: https://patorjk.com/software/taag, https://coddy.tech/tools/ascii-art-generator, etc.) to create ASCII art from typed text, but they were all too gigantic, and even when small, they didn't match the image I had in mind. The sites are great though, no complaints. I just wanted the logo to fit within 2 lines, so I used Unicode block elements to manually create the ASCII art myself for the app's name (visible on the dashboard).
 > Characters Used:
+>
 > - █ (Full Block: U+2588)
 > - ▀ (Upper Half Block: U+2580)
 > - ▄ (Lower Half Block: U+2584)
