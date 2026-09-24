@@ -38,6 +38,10 @@ void TaskManager::toggleCompletionStatus(const Task& t) {
     toggleCompletionStatusInDB(t);
 }
 
+void TaskManager::swapTaskPositions(const Task& a, const Task& b) {
+    swapTaskPositionsInDB(a, b);
+}
+
 void TaskManager::removeTask(const Task& t) {
     deleteTaskFromDB(t);
 }

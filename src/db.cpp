@@ -20,7 +20,8 @@ bool initDB() {
             description TEXT,
             due_date TEXT,
             priority INTEGER,
-            completed INTEGER
+            completed INTEGER,
+            position INTEGER NOT NULL DEFAULT 0
         );
     )";
 
@@ -32,11 +33,41 @@ bool initDB() {
         return false;
     }
 
+    // migrate older databases that lack the position column (for same-priority reordering)
+    bool hasPositionColumn = false;
+    sqlite3_stmt* stmt;
+    rc = sqlite3_prepare_v2(db, "PRAGMA table_info(tasks);", -1, &stmt, nullptr);
+    if (rc == SQLITE_OK) {
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            const char* colName = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+            if (colName && std::string(colName) == "position") {
+                hasPositionColumn = true;
+                break;
+            }
+        }
+        sqlite3_finalize(stmt);
+    }
+    if (!hasPositionColumn) {
+        rc = sqlite3_exec(db, "ALTER TABLE tasks ADD COLUMN position INTEGER NOT NULL DEFAULT 0;", nullptr, nullptr, &errMsg);
+        if (rc != SQLITE_OK) {
+            std::cerr << "SQL error: " << errMsg << std::endl;
+            sqlite3_free(errMsg);
+            return false;
+        }
+        // seed positions by insert order so existing tasks keep their current visible order
+        rc = sqlite3_exec(db, "UPDATE tasks SET position = id;", nullptr, nullptr, &errMsg);
+        if (rc != SQLITE_OK) {
+            std::cerr << "SQL error: " << errMsg << std::endl;
+            sqlite3_free(errMsg);
+            return false;
+        }
+    }
+
     return true;
 }
 
 bool addTaskToDB(const Task& t) {
-    const char* sql = "INSERT INTO tasks (name, description, due_date, priority, completed) VALUES (?, ?, ?, ?, ?);";
+    const char* sql = "INSERT INTO tasks (name, description, due_date, priority, completed, position) VALUES (?, ?, ?, ?, ?, (SELECT COALESCE(MAX(position), -1) + 1 FROM tasks WHERE priority = ?));";
     sqlite3_stmt* stmt;
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
         std::cerr << "Failed to prepare statement: " << sqlite3_errmsg(db) << std::endl;
@@ -47,6 +78,7 @@ bool addTaskToDB(const Task& t) {
     sqlite3_bind_text(stmt, 3, t.date.c_str(), -1, SQLITE_TRANSIENT);
     sqlite3_bind_int(stmt, 4, t.priority);
     sqlite3_bind_int(stmt, 5, t.completed ? 1 : 0);
+    sqlite3_bind_int(stmt, 6, t.priority);
     if (sqlite3_step(stmt) != SQLITE_DONE) {
         std::cerr << "Failed to insert task: " << sqlite3_errmsg(db) << std::endl;
         sqlite3_finalize(stmt);
@@ -58,7 +90,7 @@ bool addTaskToDB(const Task& t) {
 
 std::vector<Task> getAllTasksFromDB() {
     std::vector<Task> tasks;
-    const char* sql = "SELECT name, description, due_date, priority, completed FROM tasks ORDER BY priority ASC;";
+    const char* sql = "SELECT id, name, description, due_date, priority, completed, position FROM tasks ORDER BY priority ASC, position ASC;";
     sqlite3_stmt* stmt;
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
         std::cerr << "Failed to fetch tasks: " << sqlite3_errmsg(db) << std::endl;
@@ -66,11 +98,13 @@ std::vector<Task> getAllTasksFromDB() {
     }
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         Task t;
-        t.taskName = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
-        t.taskDesc = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
-        t.date = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
-        t.priority = sqlite3_column_int(stmt, 3);
-        t.completed = sqlite3_column_int(stmt, 4);
+        t.id = sqlite3_column_int(stmt, 0);
+        t.taskName = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        t.taskDesc = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+        t.date = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
+        t.priority = sqlite3_column_int(stmt, 4);
+        t.completed = sqlite3_column_int(stmt, 5);
+        t.position = sqlite3_column_int(stmt, 6);
         tasks.push_back(t);
     }
     sqlite3_finalize(stmt);
@@ -125,6 +159,43 @@ bool toggleCompletionStatusInDB(const Task& t) {
     }
     sqlite3_finalize(stmt);
     return true;
+}
+
+bool swapTaskPositionsInDB(const Task& a, const Task& b) {
+    char* errMsg = nullptr;
+    if (sqlite3_exec(db, "BEGIN IMMEDIATE;", nullptr, nullptr, &errMsg) != SQLITE_OK) {
+        std::cerr << "Failed to begin transaction: " << errMsg << std::endl;
+        sqlite3_free(errMsg);
+        return false;
+    }
+
+    const char* sql = "UPDATE tasks SET position = ? WHERE id = ?;";
+    sqlite3_stmt* stmt;
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        std::cerr << "Failed to prepare position update: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_exec(db, "ROLLBACK;", nullptr, nullptr, nullptr);
+        return false;
+    }
+
+    bool success = true;
+    sqlite3_bind_int(stmt, 1, b.position);
+    sqlite3_bind_int(stmt, 2, a.id);
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+        std::cerr << "Failed to swap positions: " << sqlite3_errmsg(db) << std::endl;
+        success = false;
+    }
+    sqlite3_reset(stmt);
+    sqlite3_bind_int(stmt, 1, a.position);
+    sqlite3_bind_int(stmt, 2, b.id);
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+        std::cerr << "Failed to swap positions: " << sqlite3_errmsg(db) << std::endl;
+        success = false;
+    }
+    sqlite3_finalize(stmt);
+
+    sqlite3_exec(db, success ? "COMMIT;" : "ROLLBACK;", nullptr, nullptr, &errMsg);
+    if (errMsg) sqlite3_free(errMsg);
+    return success;
 }
 
 bool deleteTaskFromDB(const Task& t) {

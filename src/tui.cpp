@@ -172,7 +172,7 @@ bool handleTypingAndSelection(ftxui::Event& event) {
 }
 
 Task parseTaskFromBuffers() {
-    Task task;
+    Task task = {};
     task.taskName = taskNameBuffer;
     task.taskDesc = taskDescBuffer;
     task.date = dateBuffer;
@@ -268,6 +268,7 @@ ftxui::Element drawDashboard() {
             keyHint("d", "Delete"),
             keyHint("D", "Clear all"),
             keyHint("c", "Toggle completion status"),
+            keyHint("J/K", "Move within priority"),
             keyHint("q/Esc", "Quit"),
             ftxui::filler(),
             keyHint("?", "About"),
@@ -540,6 +541,26 @@ bool handleEvent(ftxui::Event event) {
             TaskManager manager;
             manager.toggleCompletionStatus(t);
             refreshTasks();
+            return true;
+        }
+        if (event == ftxui::Event::Character('J')) {
+            if (selectedTaskIndex + 1 < cachedTasks.size() &&
+                cachedTasks[selectedTaskIndex + 1].priority == cachedTasks[selectedTaskIndex].priority) {
+                TaskManager manager;
+                manager.swapTaskPositions(cachedTasks[selectedTaskIndex], cachedTasks[selectedTaskIndex + 1]);
+                refreshTasks();
+                selectedTaskIndex += 1;
+            }
+            return true;
+        }
+        if (event == ftxui::Event::Character('K')) {
+            if (selectedTaskIndex - 1 >= 0 &&
+                cachedTasks[selectedTaskIndex - 1].priority == cachedTasks[selectedTaskIndex].priority) {
+                TaskManager manager;
+                manager.swapTaskPositions(cachedTasks[selectedTaskIndex], cachedTasks[selectedTaskIndex - 1]);
+                refreshTasks();
+                selectedTaskIndex -= 1;
+            }
             return true;
         }
         if (event == ftxui::Event::Character('?')) {

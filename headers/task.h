@@ -5,11 +5,13 @@
 
 class Task {
 public:
+    int id;
     int priority;
     std::string taskName;
     std::string taskDesc;
     std::string date;
     bool completed;
+    int position;
 };
 
 struct CompareTask {
