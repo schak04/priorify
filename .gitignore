@@ -5,3 +5,4 @@ installer/
 app_bundle/
 icons/
 drafts/
+compile_commands.json
