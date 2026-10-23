@@ -14,7 +14,6 @@ add_executable(priorify
     ${SRC_DIR}/db.cpp
     ${SRC_DIR}/task_manager.cpp
     ${SRC_DIR}/tui.cpp
-    # ${SRC_DIR}/ui.cpp
     ${SRC_DIR}/main.cpp
 )
 

@@ -1,6 +1,5 @@
 #include "../headers/db.h"
 #include "../headers/tui.h"
-// #include "../headers/ui.h"
 #include <iostream>
 
 int main() {
@@ -9,8 +8,6 @@ int main() {
         return 1;
     }
 
-    // UI ui;
-    // ui.run();
     runTUI();
 
     closeDB();
