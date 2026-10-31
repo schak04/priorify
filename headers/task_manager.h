@@ -8,7 +8,6 @@
 class TaskManager {
 public:
     void addTask(const Task& task);
-    void showAllTasks();
     void updateTask(const Task& og, const Task& edited);
     void toggleCompletionStatus(const Task& t);
     void swapTaskPositions(const Task& a, const Task& b);

@@ -10,25 +10,6 @@ void TaskManager::addTask(const Task& task) {
     }
 }
 
-void TaskManager::showAllTasks() {
-    std::vector<Task> tasksFromDB = getAllTasksFromDB();
-    int idx = 1;
-    if (tasksFromDB.empty()) {
-        std::cout << "No tasks to show.\n";
-        return;
-    }
-    for (const auto& t : tasksFromDB) {
-        std::cout << "--------------------------\n";
-        std::cout << "Task " << idx++ << "\n";
-        std::cout << "Priority: " << t.priority << "\n";
-        std::cout << "Task Name: " << t.taskName << "\n";
-        std::cout << "Description: " << t.taskDesc << "\n";
-        std::cout << "Due date: " << t.date << "\n";
-        std::cout << "Completed: " << (t.completed ? "Yes" : "No") << "\n";
-    }
-    std::cout << "--------------------------\n";
-}
-
 void TaskManager::updateTask(const Task& og, const Task& edited) {
     updateTaskInDB(og, edited);
 }
