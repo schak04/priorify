@@ -1,0 +1,36 @@
+=======================================================================
+BENCHMARK 2: KEYHINT PASS-BY-VALUE VS PASS-BY-CONST-REFERENCE
+Commit: 072e0e4258a920b59f32370d6d362bd40fa0e5ba
+=======================================================================
+Configuration:
+  Total Frames Simulated: 100000
+  Keybind Hints per Frame: 8 (Total calls: 800000)
+  Benchmark Repetitions: 5
+
+--- Scenario A: Pure Parameter Passing & String Copy Cost ---
+  Pass-by-value (2000000 calls):
+    Total Time: 15.2724 ms (7.6362 ns/call)
+    Dynamic Heap Allocations: 500000 (Strings >15 chars trigger heap allocation)
+    Dynamic Heap Allocated: 11500000 bytes
+  Pass-by-const-ref (2000000 calls):
+    Total Time: 4.9334 ms (2.4667 ns/call)
+    Dynamic Heap Allocations: 0 (Zero heap allocations)
+    Dynamic Heap Allocated: 0 bytes
+    Speedup Factor: 3.0957x
+    Latency Reduction: 67.6969 %
+
+--- Scenario B: Full Element Construction Over 100,000 Frames ---
+  Full Element Construction (Before: Lambda with Pass-by-Value):
+    Total Time (100000 frames, 8 hints/frame): 150.3355 ms
+    Average Cost per Frame (8 hints): 1.5034 us
+    Total Heap Allocations: 8400000
+    Allocations per Frame: 84
+  Full Element Construction (After: Global Function with Pass-by-Const-Ref):
+    Total Time (100000 frames, 8 hints/frame): 146.5888 ms
+    Average Cost per Frame (8 hints): 1.4659 us
+    Total Heap Allocations: 8200000
+    Allocations per Frame: 82
+  Improvement:
+    Time Saved: 3.7467 ms (2.4922 % reduction)
+    Allocations Saved: 200000 allocations (2 fewer per frame)
+

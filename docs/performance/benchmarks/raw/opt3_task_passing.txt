@@ -1,0 +1,18 @@
+=======================================================================
+BENCHMARK 3B: TASKMANAGER PASS-BY-VALUE VS PASS-BY-CONST-REFERENCE
+Commit: 21dbc2474ea427e65ac3dc7aec12b83799396ce0
+=======================================================================
+  Task Passing (addTask / updateTask / toggleCompletionStatus):
+  Pass-by-value (2000000 calls):
+    Total Time: 41.6346 ms (20.8173 ns/call)
+    Dynamic Allocations: 4000000 (2.0000 per call for non-SSO strings)
+    Heap Bytes Allocated: 264000000 bytes
+  Pass-by-const-ref (2000000 calls):
+    Total Time: 0.5084 ms (0.2542 ns/call)
+    Dynamic Allocations: 0 (0 allocations)
+    Heap Bytes Allocated: 0 bytes
+  Improvement:
+    Speedup Factor: 81.8973x
+    Latency Reduction: 98.7790 %
+    Dynamic Allocations Completely Avoided on Every Task Handler Call
+

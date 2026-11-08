@@ -1,0 +1,29 @@
+=======================================================================
+BENCHMARK 1: TASK LIST CACHING VS UNCACHED DATABASE QUERIES
+Commit: 409736ea9aec86dca7452895e0e31cbbf52246bd
+=======================================================================
+Configuration:
+  Task Count in Database: 25
+  Simulated Render Frames per Run: 1000
+  Benchmark Repetitions: 5
+
+--- Results: Uncached (Querying DB Every Frame) ---
+  Total Execution Time (mean of 5 runs): 13.7209 ms
+  Average Frame Latency: 13.7209 us/frame
+  Database Queries Executed: 1000 queries
+  Dynamic Memory Allocations: 106000 (106 per frame)
+  Total Heap Bytes Allocated: 13120000 bytes (13120 bytes/frame)
+
+--- Results: Cached (In-Memory Vector Read) ---
+  Total Execution Time (mean of 5 runs): 0.0466 ms
+  Average Frame Latency: 0.0466 us/frame
+  Database Queries Executed: 0 queries (1 initial load)
+  Dynamic Memory Allocations: 0 (0 per frame)
+  Total Heap Bytes Allocated: 0 bytes (0 bytes/frame)
+
+--- Comparison & Improvement ---
+  Latency Reduction: 99.6602 %
+  Throughput Speedup Factor: 294.3047x
+  Database Query Elimination: 100% of render-loop database roundtrips eliminated
+  Per-frame Allocation Overhead Eliminated: 106 allocations/frame
+

@@ -1,0 +1,105 @@
+=======================================================================
+BENCHMARK 1: TASK LIST CACHING VS UNCACHED DATABASE QUERIES
+Commit: 409736ea9aec86dca7452895e0e31cbbf52246bd
+=======================================================================
+Configuration:
+  Task Count in Database: 25
+  Simulated Render Frames per Run: 1000
+  Benchmark Repetitions: 5
+
+--- Results: Uncached (Querying DB Every Frame) ---
+  Total Execution Time (mean of 5 runs): 13.4335 ms
+  Average Frame Latency: 13.4335 us/frame
+  Database Queries Executed: 1000 queries
+  Dynamic Memory Allocations: 106000 (106 per frame)
+  Total Heap Bytes Allocated: 13120000 bytes (13120 bytes/frame)
+
+--- Results: Cached (In-Memory Vector Read) ---
+  Total Execution Time (mean of 5 runs): 0.0493 ms
+  Average Frame Latency: 0.0493 us/frame
+  Database Queries Executed: 0 queries (1 initial load)
+  Dynamic Memory Allocations: 0 (0 per frame)
+  Total Heap Bytes Allocated: 0 bytes (0 bytes/frame)
+
+--- Comparison & Improvement ---
+  Latency Reduction: 99.6333 %
+  Throughput Speedup Factor: 272.6703x
+  Database Query Elimination: 100% of render-loop database roundtrips eliminated
+  Per-frame Allocation Overhead Eliminated: 106 allocations/frame
+
+=======================================================================
+BENCHMARK 2: KEYHINT PASS-BY-VALUE VS PASS-BY-CONST-REFERENCE
+Commit: 072e0e4258a920b59f32370d6d362bd40fa0e5ba
+=======================================================================
+Configuration:
+  Total Frames Simulated: 100000
+  Keybind Hints per Frame: 8 (Total calls: 800000)
+  Benchmark Repetitions: 5
+
+--- Scenario A: Pure Parameter Passing & String Copy Cost ---
+  Pass-by-value (2000000 calls):
+    Total Time: 16.2896 ms (8.1448 ns/call)
+    Dynamic Heap Allocations: 500000 (Strings >15 chars trigger heap allocation)
+    Dynamic Heap Allocated: 11500000 bytes
+  Pass-by-const-ref (2000000 calls):
+    Total Time: 4.9922 ms (2.4961 ns/call)
+    Dynamic Heap Allocations: 0 (Zero heap allocations)
+    Dynamic Heap Allocated: 0 bytes
+    Speedup Factor: 3.2630x
+    Latency Reduction: 69.3534 %
+
+--- Scenario B: Full Element Construction Over 100,000 Frames ---
+  Full Element Construction (Before: Lambda with Pass-by-Value):
+    Total Time (100000 frames, 8 hints/frame): 164.7267 ms
+    Average Cost per Frame (8 hints): 1.6473 us
+    Total Heap Allocations: 8400000
+    Allocations per Frame: 84
+  Full Element Construction (After: Global Function with Pass-by-Const-Ref):
+    Total Time (100000 frames, 8 hints/frame): 160.3351 ms
+    Average Cost per Frame (8 hints): 1.6034 us
+    Total Heap Allocations: 8200000
+    Allocations per Frame: 82
+  Improvement:
+    Time Saved: 4.3915 ms (2.6660 % reduction)
+    Allocations Saved: 200000 allocations (2 fewer per frame)
+
+=======================================================================
+BENCHMARK 3A: STATIC ARRAY VS HEAP VECTOR (CALENDAR MONTHNAMES)
+Commit: 21dbc2474ea427e65ac3dc7aec12b83799396ce0
+=======================================================================
+Configuration:
+  Evaluations: 1000000
+  Benchmark Repetitions: 5
+
+  Original (std::vector<std::string> per frame):
+    Execution Time (1000000 frames): 95.4622 ms (95.4622 ns/frame)
+    Dynamic Allocations: 1000000 (1.0000 per frame)
+    Dynamic Bytes Allocated: 384000000 bytes (384.0000 bytes/frame)
+  Optimised (static const char* const[] in .rodata):
+    Execution Time (1000000 frames): 22.1849 ms (22.1849 ns/frame)
+    Dynamic Allocations: 0 (0.0000 per frame)
+    Dynamic Bytes Allocated: 0 bytes (0.0000 bytes/frame)
+  Measured Improvement:
+    Execution Time Reduction: 76.7606 %
+    Speedup Factor: 4.3030x
+    Allocations Eliminated: 1 heap allocation per frame (std::vector storage buffer of 384 bytes)
+    Memory Churn Eliminated at 60 FPS: 60 heap allocs/sec (23,040 bytes/sec)
+
+=======================================================================
+BENCHMARK 3B: TASKMANAGER PASS-BY-VALUE VS PASS-BY-CONST-REFERENCE
+Commit: 21dbc2474ea427e65ac3dc7aec12b83799396ce0
+=======================================================================
+  Task Passing (addTask / updateTask / toggleCompletionStatus):
+  Pass-by-value (2000000 calls):
+    Total Time: 45.4431 ms (22.7216 ns/call)
+    Dynamic Allocations: 4000000 (2.0000 per call for non-SSO strings)
+    Heap Bytes Allocated: 264000000 bytes
+  Pass-by-const-ref (2000000 calls):
+    Total Time: 0.5741 ms (0.2870 ns/call)
+    Dynamic Allocations: 0 (0 allocations)
+    Heap Bytes Allocated: 0 bytes
+  Improvement:
+    Speedup Factor: 79.1599x
+    Latency Reduction: 98.7367 %
+    Dynamic Allocations Completely Avoided on Every Task Handler Call
+

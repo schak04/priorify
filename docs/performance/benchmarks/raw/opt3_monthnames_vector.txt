@@ -1,0 +1,22 @@
+=======================================================================
+BENCHMARK 3A: STATIC ARRAY VS HEAP VECTOR (CALENDAR MONTHNAMES)
+Commit: 21dbc2474ea427e65ac3dc7aec12b83799396ce0
+=======================================================================
+Configuration:
+  Evaluations: 1000000
+  Benchmark Repetitions: 5
+
+  Original (std::vector<std::string> per frame):
+    Execution Time (1000000 frames): 88.2168 ms (88.2168 ns/frame)
+    Dynamic Allocations: 1000000 (1.0000 per frame)
+    Dynamic Bytes Allocated: 384000000 bytes (384.0000 bytes/frame)
+  Optimised (static const char* const[] in .rodata):
+    Execution Time (1000000 frames): 20.4355 ms (20.4355 ns/frame)
+    Dynamic Allocations: 0 (0.0000 per frame)
+    Dynamic Bytes Allocated: 0 bytes (0.0000 bytes/frame)
+  Measured Improvement:
+    Execution Time Reduction: 76.8349 %
+    Speedup Factor: 4.3168x
+    Allocations Eliminated: 1 heap allocation per frame (std::vector storage buffer of 384 bytes)
+    Memory Churn Eliminated at 60 FPS: 60 heap allocs/sec (23,040 bytes/sec)
+
