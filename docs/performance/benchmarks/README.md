@@ -88,9 +88,9 @@ To obtain defensible and reproducible measurements without modifying application
 | Heap Allocations per Call        | 2 allocations / call       | 0 allocations / call      | 100% deep copies eliminated       |
 | Dynamic Memory Allocated         | 264 MB allocated total     | 0 bytes allocated         | Zero allocation overhead          |
 
-## 4. How to Reproduce
+## 4. How to Reproduce the Benchmarks
 
-To compile and rerun the benchmark harness on your local machine:
+If you are exploring this project of mine and want to rerun these benchmarks, use the commands below.
 
 ```bash
 chmod +x docs/performance/benchmarks/run_benchmarks.sh
