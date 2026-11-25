@@ -498,6 +498,10 @@ bool handleEvent(ftxui::Event event) {
             return true;
         }
         if (event == ftxui::Event::Character('e')) {
+            if (cachedTasks.empty() || selectedTaskIndex < 0 || selectedTaskIndex >= cachedTasks.size()) {
+                return true;
+            }
+
             Task taskToBeEdited = cachedTasks[selectedTaskIndex];
             taskNameBuffer = taskToBeEdited.taskName;
             taskDescBuffer = taskToBeEdited.taskDesc;
@@ -537,6 +541,10 @@ bool handleEvent(ftxui::Event event) {
             return true;
         }
         if (event == ftxui::Event::Character('c')) {
+            if (cachedTasks.empty() || selectedTaskIndex < 0 || selectedTaskIndex >= cachedTasks.size()) {
+                return true;
+            }
+
             Task t = cachedTasks[selectedTaskIndex];
             TaskManager manager;
             manager.toggleCompletionStatus(t);
@@ -544,7 +552,7 @@ bool handleEvent(ftxui::Event event) {
             return true;
         }
         if (event == ftxui::Event::Character('J')) {
-            if (selectedTaskIndex + 1 < cachedTasks.size() &&
+            if (selectedTaskIndex >= 0 && selectedTaskIndex + 1 < cachedTasks.size() &&
                 cachedTasks[selectedTaskIndex + 1].priority == cachedTasks[selectedTaskIndex].priority) {
                 TaskManager manager;
                 manager.swapTaskPositions(cachedTasks[selectedTaskIndex], cachedTasks[selectedTaskIndex + 1]);
@@ -554,7 +562,7 @@ bool handleEvent(ftxui::Event event) {
             return true;
         }
         if (event == ftxui::Event::Character('K')) {
-            if (selectedTaskIndex - 1 >= 0 &&
+            if (selectedTaskIndex > 0 && selectedTaskIndex < cachedTasks.size() &&
                 cachedTasks[selectedTaskIndex - 1].priority == cachedTasks[selectedTaskIndex].priority) {
                 TaskManager manager;
                 manager.swapTaskPositions(cachedTasks[selectedTaskIndex], cachedTasks[selectedTaskIndex - 1]);
